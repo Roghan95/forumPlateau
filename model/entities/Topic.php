@@ -8,7 +8,7 @@
         private $id;
         private $titre;
         private $user;
-        private $date_creation;
+        private $dateCreation;
         private $locked;
         private $categorie;
 
@@ -86,13 +86,13 @@
                 return $this;
         }
 
-        public function getDate_creation(){
-            $formattedDate = $this->date_creation->format("d/m/Y, H:i:s");
+        public function getDateCreation(){
+            $formattedDate = $this->dateCreation->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
-        public function setDate_creation($date_creation){
-            $this->date_creation = new \DateTime($date_creation);
+        public function setDateCreation($dateCreation){
+            $this->dateCreation = new \DateTime($dateCreation);
             return $this;
         }
 

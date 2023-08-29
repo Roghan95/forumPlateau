@@ -3,11 +3,11 @@
 
     use App\Entity;
 
-    final class Topic extends Entity{
+    final class User extends Entity{
         private $user;
         private $pseudo;
         private $mdp;
-        private $date_inscription;
+        private $dateInscription;
         private $role;
         private $email;
 
@@ -40,13 +40,13 @@
             $this->mdp = $mdp;
         }
 
-        public function getDate_inscription() {
-            $formattedDate = $this->date_inscription->format("d/m/Y, H:i:s");
+        public function getDateInscription() {
+            $formattedDate = $this->dateInscription->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
-        public function setDate_inscription($date_inscription) {
-            $this->date_inscription = new \DateTime($date_inscription);
+        public function setDateInscription($dateInscription) {
+            $this->dateInscription = new \DateTime($dateInscription);
             return $this;
         }
 

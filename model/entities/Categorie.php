@@ -4,8 +4,9 @@
     use App\Entity;
 
     final class Categorie extends Entity {
-        private $categorie;
-        private $nom_categorie;
+        private $id;
+        private $nomCategorie;
+    
 
 
         public function __construct($data) {
@@ -13,21 +14,21 @@
         }
 
 
-        public function getCategorie() {
-            return $this->categorie;
+        public function getId() {
+            return $this->id;
         }
 
-        public function setCategorie($categorie) {
-            $this->categorie = $categorie;
+        public function setId($id) {
+            $this->id = $id;
             return $this;
         }
 
-        public function getNom_categorie() {
-            return $this->nom_categorie;
+        public function getNomCategorie() {
+            return $this->nomCategorie;
         }
 
-        public function setNom_categorie($nom_categorie) {
-            $this->nom_categorie = $nom_categorie;
+        public function setNomCategorie($nomCategorie) {
+            $this->nomCategorie = $nomCategorie;
             return $this;
         }
     }
