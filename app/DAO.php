@@ -13,7 +13,7 @@
     abstract class DAO{
 
         private static $host   = 'mysql:host=127.0.0.1;port=3306';
-        private static $dbname = 'forum_dwwm3';
+        private static $dbname = 'forum_aliev';
         private static $dbuser = 'root';
         private static $dbpass = '';
 
@@ -22,7 +22,7 @@
         /**
          * cette méthode permet de créer l'unique instance de PDO de l'application
          */
-        public static function connect(){
+        public static function connect() {
             
             self::$bdd = new \PDO(
                 self::$host.';dbname='.self::$dbname,
@@ -32,7 +32,7 @@
                     \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
                     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
                     \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-                )   
+                )
             );
         }
 

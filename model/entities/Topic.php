@@ -6,13 +6,24 @@
     final class Topic extends Entity{
 
         private $id;
-        private $title;
+        private $titre;
         private $user;
-        private $creationdate;
-        private $closed;
+        private $date_creation;
+        private $locked;
+        private $categorie;
 
         public function __construct($data){         
             $this->hydrate($data);        
+        }
+
+
+        public function getCategorie(){
+                return $this->categorie;
+        }
+
+        public function setCategorie($categorie) {
+                $this->categorie = $categorie;
+                return $this;
         }
  
         /**
@@ -36,21 +47,21 @@
         }
 
         /**
-         * Get the value of title
+         * Get the value of titre
          */ 
-        public function getTitle()
+        public function getTitre()
         {
-                return $this->title;
+                return $this->titre;
         }
 
         /**
-         * Set the value of title
+         * Set the value of titre
          *
          * @return  self
          */ 
-        public function setTitle($title)
+        public function setTitre($titre)
         {
-                $this->title = $title;
+                $this->titre = $titre;
 
                 return $this;
         }
@@ -75,32 +86,32 @@
                 return $this;
         }
 
-        public function getCreationdate(){
-            $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
+        public function getDate_creation(){
+            $formattedDate = $this->date_creation->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
-        public function setCreationdate($date){
-            $this->creationdate = new \DateTime($date);
+        public function setDate_creation($date_creation){
+            $this->date_creation = new \DateTime($date_creation);
             return $this;
         }
 
         /**
-         * Get the value of closed
+         * Get the value of locked
          */ 
-        public function getClosed()
+        public function getLocked()
         {
-                return $this->closed;
+                return $this->locked;
         }
 
         /**
-         * Set the value of closed
+         * Set the value of locked
          *
          * @return  self
          */ 
-        public function setClosed($closed)
+        public function setLocked($locked)
         {
-                $this->closed = $closed;
+                $this->locked = $locked;
 
                 return $this;
         }
