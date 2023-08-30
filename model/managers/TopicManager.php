@@ -1,15 +1,29 @@
 <?php
-    namespace Model\Managers;
-    
-    use App\Manager;
-    use App\DAO;
 
-    class TopicManager extends Manager{
+namespace Model\Managers;
 
-        protected $className = "Model\Entities\Topic";
-        protected $tableName = "topic";
+use App\Manager;
+use App\DAO;
 
-        public function __construct(){
-            parent::connect();
-        }
+class TopicManager extends Manager
+{
+
+    protected $className = "Model\Entities\Topic";
+    protected $tableName = "topic";
+
+    public function __construct()
+    {
+        parent::connect();
     }
+
+    public function findTopicsByCategorie($id)
+    {
+        $sql = "SELECT * FROM " . $this->tableName . " p
+            WHERE p.category_id = :id";
+
+        return $this->getMultipleResults(
+            DAO::select($sql, ['id' => $id]),
+            $this->className
+        );
+    }
+}

@@ -1,18 +1,19 @@
 <?php
 
 $topics = $result["data"]['topics'];
-    
+
 ?>
 
-<h1>liste topics</h1>
+<h1>Liste topics</h1>
 
 <?php
-foreach($topics as $topic){
+foreach ($topics as $topic) {
 
-    ?>
-    <p><?=$topic->getTitre()?></p>
-    <?php
+?>
+    <p>
+        <a href="index.php?ctrl=forum&action=findPostsByTopics&id=<?= $topic->getId() ?>">
+            <?= $topic->getTitre() ?>
+        </a>
+    </p>
+<?php
 }
-
-
-  
