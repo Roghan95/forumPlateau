@@ -27,7 +27,16 @@ foreach ($posts as $post) {
                     <p>Le <?= $post->getDateCreation() ?></p>
                 </div>
             </div>
-            <p><?= $post->getTexte() ?></p>
+            <p>
+                <?= $post->getTexte() ?>
+            </p>
         </div>
     <?php } ?>
 </div>
+
+<form class="reponse-form" action="" method="post">
+    <label for="message-textarea">Répondre: </label>
+    <textarea id="message-textarea" required></textarea>
+    <button type="submit">POSTER</button>
+</form>
+

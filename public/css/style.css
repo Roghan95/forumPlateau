@@ -1,5 +1,21 @@
 /* Reset CSS */
-body, h1, h2, h3, h4, h5, h6, p, ul, li, figure, figcaption, div {
+* {
+    font-family: sans-serif;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+figure,
+figcaption,
+div {
     margin: 0;
     padding: 0;
 }
@@ -15,7 +31,12 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     background-color: #f5f5f5;
-    color: #333;
+
+}
+
+html.overflow-hidden,
+body.overflow-hidden {
+    overflow: hidden;
 }
 
 #wrapper {
@@ -112,13 +133,90 @@ nav #nav-right a {
     margin-right: 5px;
 }
 
+/* FORMULAIRE POUR POSTER UNE REPONSE */
+.reponse-form {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.reponse-form button {
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    width: 15%;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    margin-top: 20px;
+}
+
+.reponse-form button:hover {
+    background-color: #221bf0;
+}
+
+.reponse-form textarea {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    height: 100px;
+    resize: none;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ---------------------------------- */
+/* Messages du posts et réponses */
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.post-block {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.post-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.post-info figure {
+    display: flex;
+    align-items: center;
+}
+
+.post-info img {
+    border-radius: 100%;
+}
+
+
+/* -------------------------------- */
+
 /* Responsive */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
         text-align: center;
     }
-    
+
     nav a {
         margin: 10px 0;
     }

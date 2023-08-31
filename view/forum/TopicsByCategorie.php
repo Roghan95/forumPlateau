@@ -6,9 +6,9 @@ $categories = $result["data"]['categories'];
 ?>
 
 <h1>
-<a href="index.php?ctrl=forum&action=listCategories">Catégories</a>
- >
- <?= $categories->getNomCategorie() ?>
+    <a href="index.php?ctrl=forum&action=listCategories">Catégories</a>
+    >
+    <?= $categories->getNomCategorie() ?>
 </h1>
 
 <?php

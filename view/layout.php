@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,50 +10,50 @@
     <link rel="stylesheet" href="<?= PUBLIC_DIR ?>/css/style.css">
     <title>FORUM</title>
 </head>
+
 <body>
-    <div id="wrapper"> 
-       <div class="content-wrapper">
-        <div id="mainpage">
-            <!-- c'est ici que les messages (erreur ou succès) s'affichent-->
-            <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
-            <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
-            <header>
-                <nav>
-                    <div id="nav-left">
-                        <a href="/">Accueil</a>
-                        <?php
-                        if(App\Session::isAdmin()){
-                            ?>
-                            <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
-                          
+    <div id="wrapper">
+        <div class="content-wrapper">
+            <div id="mainpage">
+                <!-- c'est ici que les messages (erreur ou succès) s'affichent-->
+                <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
+                <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
+                <header>
+                    <nav>
+                        <div id="nav-left">
+                            <a href="/">Accueil</a>
                             <?php
-                        }
-                        ?>
-                    </div>
-                    <div id="nav-right">
-                    <?php
-                        
-                        if(App\Session::getUser()){
+                            if (App\Session::isAdmin()) {
                             ?>
-                            <a href="/security/viewProfile.html"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
-                            <a href="/security/logout.html">Déconnexion</a>
+                                <a href="index.php?ctrl=home&action=users">Voir la liste des gens</a>
+
                             <?php
-                        }
-                        else{
+                            }
                             ?>
-                            <a href="./view/security/login.php">Connexion</a>
-                            <a href="/security/register.html">Inscription</a>
-                            <a href="index.php?ctrl=forum&action=listTopics">Liste des topics</a>
-                            <a href="index.php?ctrl=forum&action=listCategories">Liste des catégories</a>
-                        <?php
-                        }               
-                    ?>
-                    </div>
-                </nav>
-            </header>
-            <main id="forum">
-                <?= $page ?>
-            </main>
+                        </div>
+                        <div id="nav-right">
+                            <?php
+
+                            if (App\Session::getUser()) {
+                            ?>
+                                <a href="/security/viewProfile.html"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a>
+                                <a href="/security/logout.html">Déconnexion</a>
+                            <?php
+                            } else {
+                            ?>
+                                <a href="./view/security/login.php">Connexion</a>
+                                <a href="/security/register.html">Inscription</a>
+                                <a href="index.php?ctrl=forum&action=listTopics">Liste des topics</a>
+                                <a href="index.php?ctrl=forum&action=listCategories">Liste des catégories</a>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </nav>
+                </header>
+                <main id="forum">
+                    <?= $page ?>
+                </main>
             </div>
         </div>
         <footer>
@@ -61,22 +62,18 @@
         </footer>
     </div>
 
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
     </script>
     <script>
-
-        $(document).ready(function(){
-            $(".message").each(function(){
-                if($(this).text().length > 0){
-                    $(this).slideDown(500, function(){
+        $(document).ready(function() {
+            $(".message").each(function() {
+                if ($(this).text().length > 0) {
+                    $(this).slideDown(500, function() {
                         $(this).delay(3000).slideUp(500)
                     })
                 }
             })
-            $(".delete-btn").on("click", function(){
+            $(".delete-btn").on("click", function() {
                 return confirm("Etes-vous sûr de vouloir supprimer?")
             })
             tinymce.init({
@@ -88,15 +85,39 @@
                     'insertdatetime media table paste code help wordcount'
                 ],
                 toolbar: 'undo redo | formatselect | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
+                    'bold italic backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
                 content_css: '//www.tiny.cloud/css/codepen.min.css'
             });
         })
+        // JavaScript
+        window.addEventListener('DOMContentLoaded', function() {
+            var contentHeight = document.getElementById('content-wrapper').clientHeight;
+            var windowHeight = window.innerHeight;
 
-        
+            if (contentHeight <= windowHeight) {
+                document.documentElement.classList.add('overflow-hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                document.documentElement.classList.remove('overflow-hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        });
 
+        // Réécoutez les redimensionnements de fenêtre pour ajuster la classe en conséquence
+        window.addEventListener('resize', function() {
+            var contentHeight = document.getElementById('content-wrapper').clientHeight;
+            var windowHeight = window.innerHeight;
+
+            if (contentHeight <= windowHeight) {
+                document.documentElement.classList.add('overflow-hidden');
+                document.body.classList.add('overflow-hidden');
+            } else {
+                document.documentElement.classList.remove('overflow-hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        });
         /*
         $("#ajaxbtn").on("click", function(){
             $.get(
@@ -111,4 +132,5 @@
         })*/
     </script>
 </body>
+
 </html>
