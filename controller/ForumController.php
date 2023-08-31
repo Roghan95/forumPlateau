@@ -55,7 +55,6 @@ class ForumController extends AbstractController implements ControllerInterface
 
     public function listPostsByTopic($id)
     {
-
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
@@ -64,9 +63,11 @@ class ForumController extends AbstractController implements ControllerInterface
             "view" => VIEW_DIR . "forum/PostsByTopics.php",
             "data" => [
                 "posts" => $postManager->findPostsByTopic($id, ["dateCreation", "DESC"]),
-                "categories" => $categorieManager->
+                "categories" => $categorieManager->findOneById($id),
                 "topics" => $topicManager->findOneById($id)
             ]
         ];
     }
+
+    
 }

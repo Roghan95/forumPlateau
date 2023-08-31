@@ -4,18 +4,14 @@ $posts = $result["data"]['posts'];
 $topics = $result["data"]['topics'];
 
 foreach ($posts as $post) {
-    $premiereValeur = $post;
+    $firstValue = $post;
     break;
 }
 
-
-
-
 ?>
-<!--....... &id=<  ?= $premiereValeur->getTopic()->getCategorie()->getId()  ?> -->
 <h1>
     <a href="index.php?ctrl=forum&action=listCategories">Catégories</a> >
-    <a href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $premiereValeur->getTopic()->getCategorie()->getId() ?>"><?= $premiereValeur->getTopic()->getCategorie()->getNomCategorie() ?></a>
+    <a href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $firstValue->getTopic()->getCategorie()->getId() ?>"><?= $firstValue->getTopic()->getCategorie()->getNomCategorie() ?></a>
     <?= $topics->getTitre() ?>
 </h1>
 
@@ -27,7 +23,7 @@ foreach ($posts as $post) {
                     <img src="https://picsum.photos/50/50" alt="">
                 </figure>
                 <div class="user-date">
-                    <a href="#">[Script user]</a>
+                    <a href="#"></a>
                     <p>Le <?= $post->getDateCreation() ?></p>
                 </div>
             </div>

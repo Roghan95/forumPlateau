@@ -8,12 +8,10 @@ $topics = $result["data"]['topics'];
 
 <?php
 foreach ($topics as $topic) {
-
 ?>
     <p>
-        <a href="index.php?ctrl=forum&action=findPostsByTopics&id=<?= $topic->getId() ?>">
+        <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>">
             <?= $topic->getTitre() ?>
         </a>
     </p>
-<?php
-}
+<?php } ?>

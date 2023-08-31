@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="wrapper"> 
-       
+       <div class="content-wrapper">
         <div id="mainpage">
             <!-- c'est ici que les messages (erreur ou succès) s'affichent-->
             <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3>
@@ -42,25 +42,25 @@
                             ?>
                             <a href="./view/security/login.php">Connexion</a>
                             <a href="/security/register.html">Inscription</a>
-                            <a href="index.php?ctrl=forum&action=listTopics">la liste des topics</a>
+                            <a href="index.php?ctrl=forum&action=listTopics">Liste des topics</a>
+                            <a href="index.php?ctrl=forum&action=listCategories">Liste des catégories</a>
                         <?php
-                        }
-                   
-                        
+                        }               
                     ?>
                     </div>
                 </nav>
             </header>
-            
             <main id="forum">
                 <?= $page ?>
             </main>
+            </div>
         </div>
         <footer>
             <p>&copy; 2020 - Forum CDA - <a href="/home/forumRules.html">Règlement du forum</a> - <a href="">Mentions légales</a></p>
             <!--<button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois-->
         </footer>
     </div>
+
     <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

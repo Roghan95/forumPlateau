@@ -65,4 +65,9 @@
         public function setEmail($email) {
             $this->email = $email;
         }
+
+        public function __toString()
+        {
+            return $this->pseudo;
+        }
      }

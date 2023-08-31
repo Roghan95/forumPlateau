@@ -5,7 +5,11 @@ $categories = $result["data"]['categories'];
 
 ?>
 
-<h1> <a href="index.php?ctrl=forum&action=listCategories">Catégories</a> > <?= $categories->getNomCategorie() ?></h1>
+<h1>
+<a href="index.php?ctrl=forum&action=listCategories">Catégories</a>
+ >
+ <?= $categories->getNomCategorie() ?>
+</h1>
 
 <?php
 
@@ -16,7 +20,7 @@ if (empty($topics)) : ?>
         <tr>
             <th>Sujet</th>
             <th>Auteur</th>
-            <th>NB Mess</th>
+            <th>NB Messages</th>
             <th>Date</th>
         </tr>
         <?php foreach ($topics as $topic) : ?>

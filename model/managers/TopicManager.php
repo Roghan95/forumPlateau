@@ -19,7 +19,7 @@ class TopicManager extends Manager
     public function findTopicsByCategorie($id)
     {
         $sql = "SELECT * FROM " . $this->tableName . " p
-            WHERE p.category_id = :id";
+            WHERE p.categorie_id = :id";
 
         return $this->getMultipleResults(
             DAO::select($sql, ['id' => $id]),
