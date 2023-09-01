@@ -72,30 +72,30 @@ class ForumController extends AbstractController implements ControllerInterface
     public function addCategorie($id)
     {
         $categorieManager = new CategorieManager();
-
     }
 
     // public function deleteCategorie($id)
     // {
-        
+
     // }
 
     public function addPost($id)
     {
-        $postManager = new PostManager();
 
-        $text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (isset($_POST["addPost"])) {
+            $text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
+            $postManager = new PostManager();
+            // $topicManager = new TopicManager();
 
-        $data = [
-            "texte" => $text,
-            "user_id" => 2,
-            "topic_id" => $id
-        ];
-
-        $postManager->add($data);
-
+            $data = [
+                "texte" => $text,
+                "user_id" => 2,
+                "topic_id" => $id
+            ];
+            $postManager->add($data);
+            $this->redirectTo("forum", "listPostsByTopic", $id);
+        }
     }
-
 
     // public function addTopic($id)
     // {

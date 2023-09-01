@@ -14,9 +14,9 @@ abstract class AbstractController
 
         if ($ctrl != "home") {
             $url = $ctrl ? "?ctrl=" . $ctrl : "";
-            $url .= $action ? "$action=" . $action : "";
-            $url .= $id ? "$id=" . $id : "";
-            $url .= ".html";
+            $url .= $action ? "&action=" . $action : "";
+            $url .= $id ? "&id=" . $id : "";
+            
         } else $url = "/";
         header("Location: $url");
         die();
