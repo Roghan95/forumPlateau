@@ -33,6 +33,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 if (!$userManager->findOneByEmail($email)) {
                     if (!$userManager->findOneByUser($pseudo)) {
                         if (($mdp == $confirmMdp) and strlen($mdp) >= 8) {
+                            $data = ['pseudo' => $pseudo, 'mdp' => $mdp, 'email' => $email];
                         }
                     }
                 }

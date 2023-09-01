@@ -69,4 +69,48 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    public function addCategorie($id)
+    {
+        
+        $categorieManager = new CategorieManager();
+        return [
+            "view" => VIEW_DIR . "forum/listCategories",
+            "data" => [
+                "categories" => $categorieManager->add($id, ["dateCreation", "ASC"])
+            ]
+        ];
+    }
+
+    public function deleteCategorie($id) {
+
+    }
+
+    // public function addPost($id)
+    // {
+    //     $postManager = new PostManager();
+    //     $topicManager = new TopicManager();
+
+    //     return [
+    //         "view" => VIEW_DIR . "forum/#",
+    //         "data" => [
+    //             "posts" => $postManager->add($id, [])
+    //         ]
+    //     ];
+    // }
+
+
+    // public function addTopic($id)
+    // {
+    //     $topicManager = new TopicManager();
+    //     $categorieManager = new CategorieManager();
+
+
+    //     return [
+    //         "view" => VIEW_DIR . "forum/",
+    //         "data" => [
+    //             "topics" => $topicManager->add($id, ["titre", "dateCreation"]),
+    //             "categories" => $categorieManager->add($id)
+    //         ]
+    //     ];
+    // }
 }
