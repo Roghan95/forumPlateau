@@ -32,11 +32,9 @@ foreach ($posts as $post) {
             </p>
         </div>
     <?php } ?>
+    <form class="reponse-form" action="index.php?ctrl=forum&action=addPost" method="post">
+        <label for="message-textarea">Répondre: </label>
+        <textarea id="message-textarea" name="text" required></textarea>
+        <button type="submit" name="text">POSTER</button>
+    </form>
 </div>
-
-<form class="reponse-form" action="" method="post">
-    <label for="message-textarea">Répondre: </label>
-    <textarea id="message-textarea" required></textarea>
-    <button type="submit">POSTER</button>
-</form>
-

@@ -24,4 +24,9 @@
                 $this->className
             );
         }
+
+        // public function addPost($id) {
+        //     $sql = "INSERT INTO " .$this->tableName."
+        //     VALUES (:id_post, :texte, :dateCreation, :user_id)"
+        // }
     }
