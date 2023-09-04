@@ -5,8 +5,6 @@
 -- HeidiSQL Version:             12.1.0.6537
 -- --------------------------------------------------------
 
- 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
@@ -16,31 +14,19 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
- 
-
- 
 
 -- Listage de la structure de la base pour forum_aliev
 CREATE DATABASE IF NOT EXISTS `forum_aliev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `forum_aliev`;
-
- 
 
 -- Listage de la structure de table forum_aliev. categorie
 CREATE TABLE IF NOT EXISTS `categorie` (
   `id_categorie` int NOT NULL AUTO_INCREMENT,
   `nomCategorie` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id_categorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
- 
-
--- Listage des données de la table forum_aliev.categorie : ~2 rows (environ)
-INSERT INTO `categorie` (`id_categorie`, `nomCategorie`) VALUES
-    (3, 'Catégorie A'),
-    (4, 'Catégorie B');
-
- 
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de table forum_aliev. post
 CREATE TABLE IF NOT EXISTS `post` (
@@ -53,22 +39,15 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `user_id` (`user_id`),
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`),
-  CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
- 
-
--- Listage des données de la table forum_aliev.post : ~2 rows (environ)
-INSERT INTO `post` (`id_post`, `texte`, `dateCreation`, `user_id`, `topic_id`) VALUES
-    (2, 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit vitae mollitia similique commodi modi architecto possimus, consequatur, doloremque, quaerat vero deserunt neque quos eos iure doloribus aspernatur fugiat consequuntur? Aliquam?', '2023-08-31 08:55:26', 2, 2),
-    (3, 'Je suis un programmeur Full Stock', '2023-08-31 08:56:14', 3, 3);
-
- 
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de table forum_aliev. topic
 CREATE TABLE IF NOT EXISTS `topic` (
   `id_topic` int NOT NULL AUTO_INCREMENT,
-  `locked` tinyint NOT NULL,
+  `locked` tinyint(1) NOT NULL,
   `titre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `dateCreation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `categorie_id` int NOT NULL,
@@ -76,18 +55,11 @@ CREATE TABLE IF NOT EXISTS `topic` (
   PRIMARY KEY (`id_topic`),
   KEY `categorie_id` (`categorie_id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`),
+  CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`) ON DELETE CASCADE,
   CONSTRAINT `topic_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
- 
-
--- Listage des données de la table forum_aliev.topic : ~2 rows (environ)
-INSERT INTO `topic` (`id_topic`, `locked`, `titre`, `dateCreation`, `categorie_id`, `user_id`) VALUES
-    (2, 123, 'Test de fonctionnalités', '2023-08-31 08:54:45', 3, 2),
-    (3, 123, 'Cédric le véritable créateur de Tesla', '2023-08-31 08:57:42', 4, 3);
-
- 
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de table forum_aliev. user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -100,14 +72,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
- 
-
--- Listage des données de la table forum_aliev.user : ~0 rows (environ)
-INSERT INTO `user` (`id_user`, `pseudo`, `mdp`, `dateInscription`, `role`, `email`) VALUES
-    (2, 'Roghan95', '123', '2023-08-31 08:53:57', 'admin', 'admin@gmail.com'),
-    (3, 'Cédric', '123', '2023-08-31 08:56:36', 'user', 'cédric@gmail.com');
-
- 
+-- Les données exportées n'étaient pas sélectionnées.
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
