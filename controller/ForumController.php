@@ -41,8 +41,8 @@ class ForumController extends AbstractController implements ControllerInterface
 
     // La fonction listTopicsByCategorie permet d'afficher les topics d'une catégorie par son id
     public function listTopicsByCategorie($id)
-    {
-
+    {   
+        $postManager = new PostManager();
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
 
@@ -162,4 +162,6 @@ class ForumController extends AbstractController implements ControllerInterface
             $this->redirectTo("forum", "listTopicsByCategorie", $id);
         }
     }
+
+    
 }

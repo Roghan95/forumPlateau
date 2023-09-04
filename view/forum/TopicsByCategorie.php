@@ -35,11 +35,15 @@ if (empty($topics)) : ?>
                         <?= $topic->getUser() ?>
                     </a>
                 </td>
-                <td>[insérer le script]</td>
                 <td>
-                    <a href="">
+                    <p>
+                        <?= $topic->getNbPosts() ?>
+                    </p>
+                </td>
+                <td>
+                    <p>
                         <?= $topic->getDateCreation() ?>
-                    </a>
+                    </p>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -40,104 +40,73 @@ final class Topic extends Entity
                 return $this->categorie;
         }
 
+        // On set la catégorie
         public function setCategorie($categorie)
         {
                 $this->categorie = $categorie;
                 return $this;
         }
-
-        /**
-         * Get the value of id
-         */
+        // On récupère l'id
         public function getId()
         {
                 return $this->id;
         }
-
-        /**
-         * Set the value of id
-         *
-         * @return  self
-         */
+        // On set l'id
         public function setId($id)
         {
                 $this->id = $id;
-
                 return $this;
         }
-
-        /**
-         * Get the value of titre
-         */
+        // On récupère le titre
         public function getTitre()
         {
                 return $this->titre;
         }
-
-        /**
-         * Set the value of titre
-         *
-         * @return  self
-         */
+        // On set le titre
         public function setTitre($titre)
         {
                 $this->titre = $titre;
 
                 return $this;
         }
-
-        /**
-         * Get the value of user
-         */
+        // On récupère l'user
         public function getUser()
         {
                 return $this->user;
         }
 
-        /**
-         * Set the value of user
-         *
-         * @return  self
-         */
+        // On set l'user
         public function setUser($user)
         {
                 $this->user = $user;
 
                 return $this;
         }
-
+        // On récupère la date de création
         public function getDateCreation()
         {
                 $formattedDate = $this->dateCreation->format("d/m/Y, H:i:s");
                 return $formattedDate;
         }
-
+        // On set la date de création
         public function setDateCreation($dateCreation)
         {
                 $this->dateCreation = new \DateTime($dateCreation);
                 return $this;
         }
-
-        /**
-         * Get the value of locked
-         */
+        // On récupère le locked
         public function getLocked()
         {
                 return $this->locked;
         }
-
-        /**
-         * Set the value of locked
-         *
-         * @return  self
-         */
+        // On set le locked
         public function setLocked($locked)
         {
                 $this->locked = $locked;
 
                 return $this;
         }
-
+        // On affiche le titre en string
         public function __toString()
         {
                 return $this->titre;
