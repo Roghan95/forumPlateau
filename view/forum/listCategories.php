@@ -8,8 +8,9 @@ $categories = $result["data"]['categories'];
     <div class="categorie">
         <div class="box">
             <form action="index.php?ctrl=forum&action=addCategorie" method="post">
+                <label for="nomCategorie">Ajouter une catégorie</label>
                 <input type="text" name="nomCategorie">
-                <input type="submit" name="addCategorie" value="Ajouter une catégorie">
+                <input type="submit" name="addCategorie" value="OK">
             </form>
             <?php foreach ($categories as $categorie) { ?>
                 <!-- Affiche le nom de la catégorie -->
@@ -17,7 +18,7 @@ $categories = $result["data"]['categories'];
                     <p><?= $categorie->getNomCategorie() ?></p>
                     <!-- Bouton deleteCategorie -->
                     <form action="index.php?ctrl=forum&action=deleteCategorie&id=<?= $categorie->getId() ?>" method="post">
-                        <input type="submit" name="deleteCategorie" value="Supprimer la catégorie">
+                        <input type="submit" name="deleteCategorie" value="Supprimer">
                     </form>
                 </a>
             <?php } ?>

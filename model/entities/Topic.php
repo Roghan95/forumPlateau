@@ -13,12 +13,28 @@ final class Topic extends Entity
         private $dateCreation;
         private $locked;
         private $categorie;
+        private $nbPosts;
 
         public function __construct($data)
         {
                 $this->hydrate($data);
         }
 
+        // On récupère le nombre de posts par topic
+        public function getNbPosts()
+        {
+                return $this->nbPosts;
+        }
+
+        // On set le nombre de posts par topic
+        public function setNbPosts($nbPosts)
+        {
+                $this->nbPosts = $nbPosts;
+
+                return $this;
+        }
+
+        // On récupère la catégorie
         public function getCategorie()
         {
                 return $this->categorie;

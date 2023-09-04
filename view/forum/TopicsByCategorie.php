@@ -32,7 +32,7 @@ if (empty($topics)) : ?>
                 </td>
                 <td>
                     <a href="">
-                        [insérer le script]
+                        <?= $topic->getUser() ?>
                     </a>
                 </td>
                 <td>[insérer le script]</td>

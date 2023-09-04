@@ -58,10 +58,12 @@ class ForumController extends AbstractController implements ControllerInterface
     // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
     public function listPostsByTopic($id)
     {
+        // On instancie les managers des posts, topics et catégories
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
 
+        // On retourne la vue et les données suivantes
         return [
             "view" => VIEW_DIR . "forum/PostsByTopics.php",
             "data" => [
@@ -127,9 +129,37 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
-    // public function addTopic($id)
-    // {
-    //     $topicManager = new TopicManager();
-    //     $categorieManager = new CategorieManager();
-    // }
+    // Supprimer un post
+    public function deletePost($id)
+    {
+        if (isset($_POST["deletePost"])) {
+            // On instancie le manager des posts
+            $postManager = new PostManager();
+            // On supprime le post par son id
+            $postManager->delete($id);
+            // On redirige vers la liste des posts du topic par son id
+            $this->redirectTo("forum", "listPostsByTopic", $id);
+        }
+    }
+
+    // Ajouter un topic
+    public function addTopic($id)
+    {
+        // Si on clique sur le bouton "Ajouter un topic" alors on récupère le titre du topic et on le filtre
+        if (isset($_POST["addTopic"])) {
+            // On récupère le titre du topic et on le filtre
+            $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
+            $topicManager = new TopicManager();
+
+            // On ajoute le topic selon les données suivantes (titre, user_id, categorie_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
+            $data = [
+                "titre" => $titre,
+                "user_id" => 2,
+                "categorie_id" => $id
+            ];
+            // On ajoute le topic et on redirige vers la liste des topics de la catégorie par son id
+            $topicManager->add($data);
+            $this->redirectTo("forum", "listTopicsByCategorie", $id);
+        }
+    }
 }
