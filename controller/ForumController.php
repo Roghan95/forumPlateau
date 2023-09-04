@@ -41,7 +41,7 @@ class ForumController extends AbstractController implements ControllerInterface
 
     // La fonction listTopicsByCategorie permet d'afficher les topics d'une catégorie par son id
     public function listTopicsByCategorie($id)
-    {   
+    {
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
@@ -163,5 +163,35 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
-    
+    // Supprimer un topic
+    public function deleteTopic($id)
+    {
+        if (isset($_POST["deleteTopic"])) {
+            // On instancie le manager des topics
+            $topicManager = new TopicManager();
+            // On supprime le topic par son id
+            $topicManager->delete($id);
+            // On redirige vers la liste des topics de la catégorie par son id
+            $this->redirectTo("forum", "listTopicsByCategorie", $id);
+        }
+    }
+
+    // Modifier un topic
+    public function updateTopic($id)
+    {
+        // Si on clique sur le bouton "Modifier un topic" alors on récupère le titre du topic et on le filtre
+        if (isset($_POST["updateTopic"])) {
+            // On récupère le titre du topic et on le filtre
+            $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
+            $topicManager = new TopicManager();
+
+            // On modifie le topic selon les données suivantes (titre, user_id, categorie_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
+            $data = [
+                "titre" => $titre,
+            ];
+            // On modifie le topic et on redirige vers la liste des topics de la catégorie par son id
+            $topicManager->update($id, $data);
+            $this->redirectTo("forum", "listTopicsByCategorie", $id);
+        }
+    }
 }

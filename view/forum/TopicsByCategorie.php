@@ -29,6 +29,9 @@ if (empty($topics)) : ?>
                     <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>">
                         <?= $topic->getTitre() ?>
                     </a>
+                    <form action="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>" method="post">
+                        <input type="submit" name="deleteTopic" value="Supprimer">
+                    </form>
                 </td>
                 <td>
                     <a href="">

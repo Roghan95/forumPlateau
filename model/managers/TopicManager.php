@@ -19,7 +19,7 @@ class TopicManager extends Manager
 
     public function findTopicsByCategorie($id)
     {
-        $sql = "SELECT t.id_topic, t.titre, COUNT(t.id_topic) AS nbPosts
+        $sql = "SELECT t.id_topic, t.titre, t.locked, t.dateCreation, t.user_id, t.categorie_id, COUNT(t.id_topic) AS nbPosts
         FROM categorie c
         INNER JOIN topic t ON t.categorie_id = c.id_categorie
         INNER JOIN post p ON p.topic_id = t.id_topic
