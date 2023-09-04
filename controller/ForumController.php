@@ -13,7 +13,7 @@ use Model\Managers\UserManager;
 class ForumController extends AbstractController implements ControllerInterface
 {
 
-
+    // La fonction index permet d'afficher les topics et de les trier par date de création
     public function index()
     {
         $topicManager = new TopicManager();
@@ -26,6 +26,7 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    // La fonction listCategories permet d'afficher les catégories
     public function listCategories()
     {
         $categorieManager = new CategorieManager();
@@ -38,6 +39,7 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    // La fonction listTopicsByCategorie permet d'afficher les topics d'une catégorie par son id
     public function listTopicsByCategorie($id)
     {
 
@@ -53,6 +55,7 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+    // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
     public function listPostsByTopic($id)
     {
         $postManager = new PostManager();
@@ -69,29 +72,56 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
-    public function addCategorie($id)
+    // Ajouter une catégorie
+    public function addCategorie()
     {
-        $categorieManager = new CategorieManager();
+        // Si on clique sur le bouton "Ajouter une catégorie"
+        if (isset($_POST["addCategorie"])) {
+            // On récupère le nom de la catégorie et on le filtre
+            $nomCategorie = filter_input(INPUT_POST, 'nomCategorie', FILTER_SANITIZE_SPECIAL_CHARS);
+            // On instancie le manager des catégories
+            $categorieManager = new CategorieManager();
+
+            $data = [
+                // On récupère le nom de la catégorie
+                "nomCategorie" => $nomCategorie
+            ];
+            // On ajoute la catégorie
+            $categorieManager->add($data);
+            // On redirige vers la liste des catégories
+            $this->redirectTo("forum", "listCategories");
+        }
     }
 
-    // public function deleteCategorie($id)
-    // {
+    // Supprimer une catégorie
+    public function deleteCategorie($id)
+    {
+        if (isset($_POST["deleteCategorie"])) {
+            // On instancie le manager des catégories
+            $categorieManager = new CategorieManager();
+            // On supprime la catégorie par son id
+            $categorieManager->delete($id);
+            // On redirige vers la liste des catégories
+            $this->redirectTo("forum", "listCategories");
+        }
+    }
 
-    // }
-
+    // Ajouter un topic
     public function addPost($id)
     {
-
+        // Si on clique sur le bouton "Ajouter un post" alors on récupère le texte du post et on le filtre
         if (isset($_POST["addPost"])) {
+            // On récupère le texte du post et on le filtre
             $text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
             $postManager = new PostManager();
-            // $topicManager = new TopicManager();
 
+            // On ajoute le post selon les données suivantes (texte, user_id, topic_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
             $data = [
                 "texte" => $text,
                 "user_id" => 2,
                 "topic_id" => $id
             ];
+            // On ajoute le post et on redirige vers la liste des posts du topic par son id
             $postManager->add($data);
             $this->redirectTo("forum", "listPostsByTopic", $id);
         }

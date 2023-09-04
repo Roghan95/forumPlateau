@@ -25,7 +25,6 @@ a {
     text-decoration: none;
 }
 
-
 /* Global Styles */
 body {
     font-family: Arial, sans-serif;
@@ -201,14 +200,15 @@ label {
 .post-info figure {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .post-info img {
     border-radius: 100%;
 }
 
-
 /* -------------------------------- */
+
 
 /* Responsive */
 @media (max-width: 768px) {

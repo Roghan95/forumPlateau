@@ -20,14 +20,17 @@ foreach ($posts as $post) {
         <div class="post-block">
             <div class="post-info">
                 <figure>
-                    <img src="https://picsum.photos/50/50" alt="">
+                    <img src="https://picsum.photos/50/50" alt="Photo de profil">
+                    <!-- On affiche le pseudo de l'utilisateur qui a créer le post -->
+                    <p><?= $post->getUser() ?></p>
                 </figure>
                 <div class="user-date">
-                    <a href="#"></a>
+                    <!-- On affiche la date de création du post -->
                     <p>Le <?= $post->getDateCreation() ?></p>
                 </div>
             </div>
             <p>
+                <!-- On affiche le texte du post -->
                 <?= $post->getTexte() ?>
             </p>
         </div>
