@@ -58,6 +58,8 @@ class ForumController extends AbstractController implements ControllerInterface
     // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
     public function listPostsByTopic($id)
     {
+        // var_dump($id);
+        // die;
         // On instancie les managers des posts, topics et catégories
         $postManager = new PostManager();
         $topicManager = new TopicManager();
@@ -68,8 +70,7 @@ class ForumController extends AbstractController implements ControllerInterface
             "view" => VIEW_DIR . "forum/PostsByTopics.php",
             "data" => [
                 "posts" => $postManager->findPostsByTopic($id, ["dateCreation", "DESC"]),
-                "categories" => $categorieManager->findOneById($id),
-                "topics" => $topicManager->findOneById($id)
+                "topic" => $topicManager->findOneById($id)
             ]
         ];
     }
