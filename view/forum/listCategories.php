@@ -7,11 +7,6 @@ $categories = $result["data"]['categories'];
     <h1>FORUM</h1>
     <div class="categorie">
         <div class="box">
-            <form action="index.php?ctrl=forum&action=addCategorie" method="post">
-                <label for="nomCategorie">Ajouter une catégorie</label>
-                <input type="text" name="nomCategorie">
-                <input type="submit" name="addCategorie" value="OK">
-            </form>
             <?php foreach ($categories as $categorie) { ?>
                 <!-- Affiche le nom de la catégorie -->
                 <a href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $categorie->getId() ?>">
@@ -22,6 +17,11 @@ $categories = $result["data"]['categories'];
                     </form>
                 </a>
             <?php } ?>
+            <form action="index.php?ctrl=forum&action=addCategorie" method="post">
+                <label for="nomCategorie">Ajouter une catégorie</label>
+                <input type="text" name="nomCategorie">
+                <input type="submit" name="addCategorie" value="OK">
+            </form>
         </div>
     </div>
 </div>

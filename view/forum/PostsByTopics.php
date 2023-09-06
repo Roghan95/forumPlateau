@@ -12,6 +12,7 @@ foreach ($posts as $post) {
 <h1>
     <a href="index.php?ctrl=forum&action=listCategories">Catégories</a> >
     <a href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $firstValue->getTopic()->getCategorie()->getId() ?>"><?= $firstValue->getTopic()->getCategorie()->getNomCategorie() ?></a>
+    >
     <?= $topics->getTitre() ?>
 </h1>
 
@@ -37,7 +38,7 @@ foreach ($posts as $post) {
     <?php } ?>
     <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topics->getId() ?>" method="post">
         <label for="message-textarea">Répondre: </label>
-        <textarea id="message-textarea" name="text" required></textarea>
-        <button type="submit" name="addPost">POSTER</button>
+        <textarea id="message-textarea" name="texte" required></textarea>
+        <input type="submit" name="addPost">POSTER</input>
     </form>
 </div>

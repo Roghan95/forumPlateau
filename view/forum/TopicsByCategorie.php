@@ -9,12 +9,18 @@ $categories = $result["data"]['categories'];
     <a href="index.php?ctrl=forum&action=listCategories">Catégories</a>
     >
     <?= $categories->getNomCategorie() ?>
+    >
 </h1>
 
-<?php
 
+<?php
 if (empty($topics)) : ?>
     <p>Aucun sujet n'a été trouvé dans cette catégorie.</p>
+    <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
+        <label for="titre">Ajouter un sujet</label>
+        <input type="text" name="titre">
+        <input type="submit" name="addTopic" value="OK">
+    </form>
 <?php else : ?>
     <table border=1>
         <tr>
@@ -49,4 +55,9 @@ if (empty($topics)) : ?>
             </tr>
         <?php endforeach; ?>
     </table>
+    <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
+        <label for="titre">Ajouter un sujet</label>
+        <input type="text" name="titre">
+        <input type="submit" name="addTopic" value="OK">
+    </form>
 <?php endif; ?>

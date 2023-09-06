@@ -101,6 +101,7 @@ class ForumController extends AbstractController implements ControllerInterface
         if (isset($_POST["deleteCategorie"])) {
             // On instancie le manager des catégories
             $categorieManager = new CategorieManager();
+
             // On supprime la catégorie par son id
             $categorieManager->delete($id);
             // On redirige vers la liste des catégories
@@ -108,21 +109,23 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
-    // Ajouter un topic
+    // Ajouter un post
     public function addPost($id)
     {
         // Si on clique sur le bouton "Ajouter un post" alors on récupère le texte du post et on le filtre
         if (isset($_POST["addPost"])) {
             // On récupère le texte du post et on le filtre
-            $text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_SPECIAL_CHARS);
+            $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
             $postManager = new PostManager();
 
             // On ajoute le post selon les données suivantes (texte, user_id, topic_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
             $data = [
-                "texte" => $text,
-                "user_id" => 2,
+                "texte" => $texte,
+                "user_id" => 4,
                 "topic_id" => $id
             ];
+            // var_dump($data);
+            // die;
             // On ajoute le post et on redirige vers la liste des posts du topic par son id
             $postManager->add($data);
             $this->redirectTo("forum", "listPostsByTopic", $id);
@@ -150,13 +153,16 @@ class ForumController extends AbstractController implements ControllerInterface
             // On récupère le titre du topic et on le filtre
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             $topicManager = new TopicManager();
-
+            // var_dump($topicManager);
+            // var_dump($titre);
             // On ajoute le topic selon les données suivantes (titre, user_id, categorie_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
             $data = [
                 "titre" => $titre,
-                "user_id" => 2,
+                "user_id" => 4,
                 "categorie_id" => $id
             ];
+            // var_dump($data);
+            // die;
             // On ajoute le topic et on redirige vers la liste des topics de la catégorie par son id
             $topicManager->add($data);
             $this->redirectTo("forum", "listTopicsByCategorie", $id);
@@ -169,9 +175,11 @@ class ForumController extends AbstractController implements ControllerInterface
         // On instancie le manager des topics
         $topicManager = new TopicManager();
         // On supprime le topic par son id
+        $topic = $topicManager->findOneById($id);
+        $idCategorie = $topic->getCategorie()->getId();
         $topicManager->delete($id);
         // On redirige vers la liste des topics de la catégorie par son id
-        $this->redirectTo("forum", "listTopicsByCategorie", $id);
+        $this->redirectTo("forum", "listTopicsByCategorie", $idCategorie);
     }
 
     // Modifier un topic
