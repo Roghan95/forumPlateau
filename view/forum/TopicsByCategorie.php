@@ -56,8 +56,8 @@ if (empty($topics)) : ?>
         <?php endforeach; ?>
     </table>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-        <label for="titre">Ajouter un sujet</label>
-        <input type="text" name="titre">
+        <label for="titre">Ajouter un topic :</label>
+        <input type="text" name="titre" placeholder="Titre">
         <input type="submit" name="addTopic" value="OK">
     </form>
 <?php endif; ?>
