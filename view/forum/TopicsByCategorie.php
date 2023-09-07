@@ -42,7 +42,7 @@ if (empty($topics)) { ?>
                 <td>
                     <a href="">
                         <?= $topic->getUser() ?>
-                    </a>d
+                    </a>
                 </td>
                 <td>
                     <p>

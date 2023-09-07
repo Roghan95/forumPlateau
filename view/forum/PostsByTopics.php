@@ -32,11 +32,13 @@ $topic = $result["data"]['topic'];
                     <?= $post->getTexte() ?>
                 </p>
             </div>
-            <form action="index.php?ctrl=forum&action=updatePost&id=<?= $post->getId() ?>" method="post">
-                <textarea name="texte" id="" cols="30" rows="10" placeholder="Votre message" required></textarea>
+            <!-- Form pour modifier le post avec un input type submit -->
+            <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
+                <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
                 <input type="submit" name="updatePost" value="Modifier">
             </form>
         <?php } ?>
+        <!-- Form qui permet de répondre a un post -->
         <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>" method="post">
             <label for="message-textarea">Répondre: </label>
             <textarea id="message-textarea" name="texte" required></textarea>

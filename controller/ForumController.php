@@ -17,7 +17,6 @@ class ForumController extends AbstractController implements ControllerInterface
     public function index()
     {
         $topicManager = new TopicManager();
-        //    var_dump($topicManager->findAll(["dateCreation", "DESC"]));
         return [
             "view" => VIEW_DIR . "forum/listTopics.php",
             "data" => [
@@ -30,7 +29,6 @@ class ForumController extends AbstractController implements ControllerInterface
     public function listCategories()
     {
         $categorieManager = new CategorieManager();
-        // var_dump($categorieManager->findAll(["nomCategorie", "DESC"])->current());die; 
         return [
             "view" => VIEW_DIR . "forum/listCategories.php",
             "data" => [
@@ -55,17 +53,14 @@ class ForumController extends AbstractController implements ControllerInterface
         ];
     }
 
+
     // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
     public function listPostsByTopic($id)
     {
-        // var_dump($id);
-        // die;
-        // On instancie les managers des posts, topics et catégories
         $postManager = new PostManager();
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
 
-        // On retourne la vue et les données suivantes
         return [
             "view" => VIEW_DIR . "forum/PostsByTopics.php",
             "data" => [
@@ -109,7 +104,7 @@ class ForumController extends AbstractController implements ControllerInterface
             $this->redirectTo("forum", "listCategories");
         }
     }
-
+    // Modifier une catégorie
     public function updateCategorie($id)
     {
         if (isset($_POST["updateCategorie"]) && isset($_POST["nomCategorie"]) && !empty($_POST["nomCategorie"])) {
@@ -139,7 +134,6 @@ class ForumController extends AbstractController implements ControllerInterface
             ];
             // var_dump($data);
             // die;
-            // On ajoute le post et on redirige vers la liste des posts du topic par son id
             $postManager->add($data);
             $this->redirectTo("forum", "listPostsByTopic", $id);
         }
@@ -158,16 +152,17 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
+    // Modifier un post
     public function updatePostForm($id)
     {
+        // Modifier un post
+        $postManager = new PostManager();
+        $topicId = $postManager->findOneById($id)->getTopic()->getId();
         if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"])) {
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
-            $postManager = new PostManager();
-            $post = $postManager->findOneById($id);
-            $texte = $post->getTexte();
             if ($texte) {
                 $postManager->updatePostAction($id, $texte);
-                $this->redirectTo("forum", "PostsByTopics", $post);
+                $this->redirectTo("forum", "listPostsByTopic", $topicId);
             }
         }
     }
