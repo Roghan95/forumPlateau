@@ -162,12 +162,11 @@ class ForumController extends AbstractController implements ControllerInterface
     public function addTopic($id)
     {
         // Si on clique sur le bouton "Ajouter un topic" alors on récupère le titre du topic et on le filtre
+
         if (isset($_POST["addTopic"])) {
             // On récupère le titre du topic et on le filtre
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             $topicManager = new TopicManager();
-            // var_dump($topicManager);
-            // var_dump($titre);
             // On ajoute le topic selon les données suivantes (titre, user_id, categorie_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
             $data = [
                 "titre" => $titre,
