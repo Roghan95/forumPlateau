@@ -173,20 +173,50 @@ class ForumController extends AbstractController implements ControllerInterface
     // Supprimer un topic
     public function deleteTopic($id)
     {
-        if (isset($_POST["deleteTopic"]))
-            // On instancie le manager des topics
-            $topicManager = new TopicManager();
-
+        // On instancie le manager des topics
+        $topicManager = new TopicManager();
         // On récupère le topic par son id
         $topic = $topicManager->findOneById($id);
-        var_dump($topic);
-        die;
+        // // var_dump($topic);
+        // // die;
         $idCategorie = $topic->getCategorie()->getId();
-        // On supprime le topic par son id
+        // // On supprime le topic par son id
         $topicManager->delete($id);
-        // On redirige vers la liste des topics de la catégorie par son id
+        // var_dump($id);
+        // die;
         $this->redirectTo("forum", "listTopicsByCategorie", $idCategorie);
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Modifier un topic
     // public function updateTopic($id)
@@ -206,4 +236,3 @@ class ForumController extends AbstractController implements ControllerInterface
     //         $this->redirectTo("forum", "listTopicsByCategorie", $id);
     //     }
     // }
-}

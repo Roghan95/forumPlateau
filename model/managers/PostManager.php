@@ -30,53 +30,53 @@ class PostManager extends Manager
         );
     }
 
-    public function findPostsByUser($id)
-    {
-        // Requete SQL qui permet de récupérer les posts d'un utilisateur
-        $sql = "SELECT * FROM " . $this->tableName . " p
-            WHERE p.user_id = :id";
+    // public function findPostsByUser($id)
+    // {
+    //     // Requete SQL qui permet de récupérer les posts d'un utilisateur
+    //     $sql = "SELECT * FROM " . $this->tableName . " p
+    //         WHERE p.user_id = :id";
 
-        return $this->getMultipleResults(
-            DAO::select($sql, ['id' => $id]),
-            $this->className
-        );
-    }
+    //     return $this->getMultipleResults(
+    //         DAO::select($sql, ['id' => $id]),
+    //         $this->className
+    //     );
+    // }
 
-    public function findLastPostByTopic($id)
-    {
-        // Requete SQL qui permet de récupérer le dernier post d'un topic
-        $sql = "SELECT * FROM " . $this->tableName . " p
-            WHERE p.topic_id = :id
-            ORDER BY p.dateCreation DESC
-            LIMIT 1";
+    // public function findLastPostByTopic($id)
+    // {
+    //     // Requete SQL qui permet de récupérer le dernier post d'un topic
+    //     $sql = "SELECT * FROM " . $this->tableName . " p
+    //         WHERE p.topic_id = :id
+    //         ORDER BY p.dateCreation DESC
+    //         LIMIT 1";
 
-        return $this->getOneOrNullResult(
-            DAO::select($sql, ['id' => $id]),
-            $this->className
-        );
-    }
+    //     return $this->getOneOrNullResult(
+    //         DAO::select($sql, ['id' => $id]),
+    //         $this->className
+    //     );
+    // }
 
-    public function findNbPostsByTopic($id)
-    {
-        // Requete SQL qui permet de compter le nombre de posts par topic
-        $sql = "SELECT COUNT(*) AS nbPosts FROM " . $this->tableName . " p
-            WHERE p.topic_id = :id";
+    // public function findNbPostsByTopic($id)
+    // {
+    //     // Requete SQL qui permet de compter le nombre de posts par topic
+    //     $sql = "SELECT COUNT(*) AS nbPosts FROM " . $this->tableName . " p
+    //         WHERE p.topic_id = :id";
 
-        return $this->getOneOrNullResult(
-            DAO::select($sql, ['id' => $id]),
-            $this->className
-        );
-    }
+    //     return $this->getOneOrNullResult(
+    //         DAO::select($sql, ['id' => $id]),
+    //         $this->className
+    //     );
+    // }
 
-    public function findNbPostsByUser($id)
-    {
-        // Requête SQL qui compte le nombre de posts d'un utilisateur
-        $sql = "SELECT COUNT(*) AS nbPosts FROM " . $this->tableName . " p
-            WHERE p.user_id = :id";
+    // public function findNbPostsByUser($id)
+    // {
+    //     // Requête SQL qui compte le nombre de posts d'un utilisateur
+    //     $sql = "SELECT COUNT(*) AS nbPosts FROM " . $this->tableName . " p
+    //         WHERE p.user_id = :id";
 
-        return $this->getOneOrNullResult(
-            DAO::select($sql, ['id' => $id]),
-            $this->className
-        );
-    }
+    //     return $this->getOneOrNullResult(
+    //         DAO::select($sql, ['id' => $id]),
+    //         $this->className
+    //     );
+    // }
 }
