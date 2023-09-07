@@ -11,7 +11,6 @@ $categories = $result["data"]['categories'];
     <?= $categories->getNomCategorie() ?>
 </h1>
 
-
 <?php
 if (empty($topics)) { ?>
     <p>Aucun sujet n'a été trouvé dans cette catégorie.</p>
@@ -34,11 +33,11 @@ if (empty($topics)) { ?>
                     <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>">
                         <?= $topic->getTitre() ?>
                     </a>
-                    <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
                     <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
-                        <input type="text" name="updateTopic" placeholder="Modifier le titre">
+                        <input type="text" name="titre" placeholder="Modifier le titre">
                         <input type="submit" name="updateTopic" value="Modifier">
                     </form>
+                    <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
                 </td>
                 <td>
                     <a href="">

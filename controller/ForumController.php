@@ -202,12 +202,14 @@ class ForumController extends AbstractController implements ControllerInterface
     // Modifier un topic
     public function updateTopic($id)
     {
+        $topicManager = new TopicManager();
+        $categorieId = $topicManager->findOneById($id)->getCategorie()->getId();
         if (isset($_POST["updateTopic"]) && isset($_POST["titre"]) && !empty($_POST["titre"])) {
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             if ($titre) {
-                $topicManager = new TopicManager();
+
                 $topicManager->updateTopics($id, $titre);
-                $this->redirectTo("forum", "listTopicsByCategorie");
+                $this->redirectTo("forum", "listTopicsByCategorie", $categorieId);
             }
         }
     }
