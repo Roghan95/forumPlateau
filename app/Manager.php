@@ -90,23 +90,23 @@ abstract class Manager
         return DAO::update($sql, ['id' => $id, 'nom' => $nomCategorie]);
     }
 
-    public function updateTopic($id, $titre)
-    {
-        $sql = "UPDATE topic
-        SET titre = :titre
-        WHERE id_topic = :id";
+    // public function updateTopic($id, $titre)
+    // {
+    //     $sql = "UPDATE topic
+    //     SET titre = :titre
+    //     WHERE id_topic = :id";
 
-        return DAO::update($sql, ['id' => $id, 'titre' => $titre]);
-    }
+    //     return DAO::update($sql, ['id' => $id, 'titre' => $titre]);
+    // }
 
-    public function updatePost($id, $texte)
-    {
-        $sql = "UPDATE post
-        SET texte = :texte
-        WHERE id_post = :id";
+    // public function updatePost($id, $texte)
+    // {
+    //     $sql = "UPDATE post
+    //     SET texte = :texte
+    //     WHERE id_post = :id";
 
-        return DAO::update($sql, ['id' => $id, 'texte' => $texte]);
-    }
+    //     return DAO::update($sql, ['id' => $id, 'texte' => $texte]);
+    // }
 
     private function generate($rows, $class)
     {

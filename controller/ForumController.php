@@ -158,16 +158,16 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
-    public function updatePost($id)
+    public function updatePostForm($id)
     {
         if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"])) {
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
+            $postManager = new PostManager();
+            $post = $postManager->findOneById($id);
+            $texte = $post->getTexte();
             if ($texte) {
-                $postManager = new PostManager();
-                $postManager->updatePost($id, $texte);
-                // var_dump($postManager);
-                // die;
-                $this->redirectTo("forum", "listPostsByTopic");
+                $postManager->updatePostAction($id, $texte);
+                $this->redirectTo("forum", "PostsByTopics", $post);
             }
         }
     }

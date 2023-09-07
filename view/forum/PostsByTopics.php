@@ -32,7 +32,7 @@ $topic = $result["data"]['topic'];
                     <?= $post->getTexte() ?>
                 </p>
             </div>
-            <form action="index.php?ctrl=forum&action=updatePost&id=<?= $topic->getId() ?>" method="post">
+            <form action="index.php?ctrl=forum&action=updatePost&id=<?= $post->getId() ?>" method="post">
                 <textarea name="texte" id="" cols="30" rows="10" placeholder="Votre message" required></textarea>
                 <input type="submit" name="updatePost" value="Modifier">
             </form>

@@ -32,8 +32,16 @@ class TopicManager extends Manager
             $this->className
         );
     }
-}
 
+    public function updateTopic($id, $titre)
+    {
+        $sql = "UPDATE topic
+        SET titre = :titre
+        WHERE id_topic = :id";
+
+        return DAO::update($sql, ['id' => $id, 'titre' => $titre]);
+    }
+}
 
 
 
