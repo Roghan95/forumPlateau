@@ -13,14 +13,14 @@ $categories = $result["data"]['categories'];
 
 
 <?php
-if (empty($topics)) : ?>
+if (empty($topics)) { ?>
     <p>Aucun sujet n'a été trouvé dans cette catégorie.</p>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
         <label for="titre">Ajouter un sujet</label>
         <input type="text" name="titre">
         <input type="submit" name="addTopic" value="OK">
     </form>
-<?php else : ?>
+<?php } else { ?>
     <table border=1>
         <tr>
             <th>Sujet</th>
@@ -28,7 +28,7 @@ if (empty($topics)) : ?>
             <th>NB Messages</th>
             <th>Date</th>
         </tr>
-        <?php foreach ($topics as $topic) : ?>
+        <?php foreach ($topics as $topic) { ?>
             <tr>
                 <td>
                     <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>">
@@ -53,14 +53,14 @@ if (empty($topics)) : ?>
                 </td>
             </tr>
             <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
-                <input type="text" name="updateTopic" placeholder="Nouveau titre">
+                <input type="text" name="updateTopic" placeholder="Modifier le titre">
                 <input type="submit" name="updateTopic" value="Modifier">
             </form>
-        <?php endforeach; ?>
+        <?php } ?>
     </table>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
         <label for="titre">Ajouter un topic :</label>
         <input type="text" name="titre" placeholder="Titre">
         <input type="submit" name="addTopic" value="OK">
     </form>
-<?php endif; ?>
+<?php } ?>

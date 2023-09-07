@@ -90,10 +90,13 @@ abstract class Manager
         return DAO::update($sql, ['id' => $id, 'nom' => $nomCategorie]);
     }
 
-    public function updateTopics($id, $titre) {
+    public function updateTopics($id, $titre)
+    {
         $sql = "UPDATE topic
         SET titre = :titre
-        WHERE id"
+        WHERE id_topic = :id";
+
+        return DAO::update($sql, ['id' => $id, 'titre' => $titre]);
     }
 
     private function generate($rows, $class)
