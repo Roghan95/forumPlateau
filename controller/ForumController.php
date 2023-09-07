@@ -110,6 +110,18 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
+    public function updateCategorie($id)
+    {
+        if (isset($_POST["updateCategorie"]) && isset($_POST["nomCategorie"]) && !empty($_POST["nomCategorie"])) {
+            $nomCategorie = filter_input(INPUT_POST, 'nomCategorie', FILTER_SANITIZE_SPECIAL_CHARS);
+            if ($nomCategorie) {
+                $categorieManager = new CategorieManager();
+                $categorieManager->updateCategorie($id, $nomCategorie);
+                $this->redirectTo("forum", "listCategories");
+            }
+        }
+    }
+
     // Ajouter un post
     public function addPost($id)
     {
