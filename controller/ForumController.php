@@ -160,8 +160,15 @@ class ForumController extends AbstractController implements ControllerInterface
 
     public function updatePost($id)
     {
-        if (isset($_POST["updatePost"])) {
-            $postManager = new PostManager
+        if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"])) {
+            $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
+            if ($texte) {
+                $postManager = new PostManager();
+                $postManager->updatePost($id, $texte);
+                // var_dump($postManager);
+                // die;
+                $this->redirectTo("forum", "listPostsByTopic");
+            }
         }
     }
 
