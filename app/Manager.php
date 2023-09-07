@@ -81,6 +81,13 @@ abstract class Manager
         return DAO::delete($sql, ['id' => $id]);
     }
 
+    public function updateCategorie() {
+        $sql = "UPDATE " . $this->tableName . "
+        SET titre"
+
+        return DAO::update($sql);
+    }
+
     private function generate($rows, $class)
     {
         foreach ($rows as $row) {

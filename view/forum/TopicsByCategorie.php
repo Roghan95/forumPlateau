@@ -52,6 +52,10 @@ if (empty($topics)) : ?>
                     </p>
                 </td>
             </tr>
+            <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
+                <input type="text" name="updateTopic" placeholder="Nouveau titre">
+                <input type="submit" name="updateTopic" value="Modifier">
+            </form>
         <?php endforeach; ?>
     </table>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
