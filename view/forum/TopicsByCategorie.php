@@ -35,6 +35,10 @@ if (empty($topics)) { ?>
                         <?= $topic->getTitre() ?>
                     </a>
                     <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
+                    <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
+                        <input type="text" name="updateTopic" placeholder="Modifier le titre">
+                        <input type="submit" name="updateTopic" value="Modifier">
+                    </form>
                 </td>
                 <td>
                     <a href="">
@@ -52,10 +56,6 @@ if (empty($topics)) { ?>
                     </p>
                 </td>
             </tr>
-            <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
-                <input type="text" name="updateTopic" placeholder="Modifier le titre">
-                <input type="submit" name="updateTopic" value="Modifier">
-            </form>
         <?php } ?>
     </table>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
