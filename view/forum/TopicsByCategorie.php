@@ -13,10 +13,10 @@ $categories = $result["data"]['categories'];
 
 <?php
 if (empty($topics)) { ?>
-    <p>Aucun sujet n'a été trouvé dans cette catégorie.</p>
+    <h2>Ajouter un sujet</h2>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-        <label for="titre">Ajouter un sujet</label>
-        <input type="text" name="titre">
+        <input type="text" name="titre" placeholder="Sujet : ">
+        <textarea name="texte" id="" cols="30" rows="10" placeholder="Message"></textarea>
         <input type="submit" name="addTopic" value="OK">
     </form>
 <?php } else { ?>
@@ -58,8 +58,8 @@ if (empty($topics)) { ?>
         <?php } ?>
     </table>
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-        <label for="titre">Ajouter un topic :</label>
-        <input type="text" name="titre" placeholder="Titre">
+        <input type="text" name="titre" placeholder="Sujet :">
+        <textarea name="texte" id="" cols="30" rows="10" placeholder="Message"></textarea>
         <input type="submit" name="addTopic" value="OK">
     </form>
 <?php } ?>

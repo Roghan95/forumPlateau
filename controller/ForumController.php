@@ -158,26 +158,42 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
+    public function updatePost($id)
+    {
+        if (isset($_POST["updatePost"])) {
+            $postManager = new PostManager
+        }
+    }
+
     // Ajouter un topic
     public function addTopic($id)
     {
-        // Si on clique sur le bouton "Ajouter un topic" alors on récupère le titre du topic et on le filtre
-
-        if (isset($_POST["addTopic"])) {
+        if (
+            isset($_POST["addTopic"]) && isset($_POST['titre']) && !empty($_POST['titre'])
+            && isset($_POST['texte']) && !empty($_POST['texte'])
+        ) {
             // On récupère le titre du topic et on le filtre
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
+            $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
             $topicManager = new TopicManager();
-            // On ajoute le topic selon les données suivantes (titre, user_id, categorie_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
+            $postManager = new PostManager();
+            // var_dump($texte);
+            // die;
             $data = [
                 "titre" => $titre,
                 "user_id" => 4,
                 "categorie_id" => $id
             ];
-            // var_dump($data);
-            // die;
-            // On ajoute le topic et on redirige vers la liste des topics de la catégorie par son id
-            $topicManager->add($data);
-            $this->redirectTo("forum", "listTopicsByCategorie", $id);
+
+            $topicId = $topicManager->add($data);
+
+            $data2 = [
+                "texte" => $texte,
+                "user_id" => 4,
+                "topic_id" => $topicId
+            ];
+            $postManager->add($data2);
+            $this->redirectTo("forum", "listPostsByTopic", $topicId);
         }
     }
 
@@ -206,8 +222,7 @@ class ForumController extends AbstractController implements ControllerInterface
         if (isset($_POST["updateTopic"]) && isset($_POST["titre"]) && !empty($_POST["titre"])) {
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             if ($titre) {
-
-                $topicManager->updateTopics($id, $titre);
+                $topicManager->updateTopic($id, $titre);
                 $this->redirectTo("forum", "listTopicsByCategorie", $categorieId);
             }
         }
