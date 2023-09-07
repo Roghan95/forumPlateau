@@ -29,7 +29,6 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 // var_dump("ok");
                 // die;
                 $userManager = new UserManager();
-
                 if (!$userManager->findOneByEmail($email)) {
                     if (!$userManager->findOneByUser($pseudo)) {
                         if (($mdp == $mdpConfirm) and strlen($mdp) >= 3) {
