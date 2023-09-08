@@ -58,13 +58,15 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function login()
     {
         if (isset($_POST['login'])) {
-            var_dump('"ok"');
-            die;
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
             $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $userManager = new UserManager();
+            $userMdp = $userManager->findOneByEmail($email)->getMdp();
+            if ($email && password_verify($mdp, $userMdp)) {
+            }
         }
-        return [
-            "view" => VIEW_DIR . "security/login.php"
-        ];
+        // return [
+        //     "view" => VIEW_DIR . "security/login.php"
+        // ];
     }
 }

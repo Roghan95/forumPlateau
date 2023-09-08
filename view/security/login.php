@@ -1,7 +1,3 @@
-<?php
-$users = $result["data"]['users'];
-?>
-
 <h1>Se connecter</h1>
 
 <form action="index.php?ctrl=security&action=login">
@@ -10,4 +6,6 @@ $users = $result["data"]['users'];
 
     <label for="mdp">Mot de passe</label>
     <input type="password" name="mdp" id="mdp" placeholder="Mot de passe" required>
+
+    <input type="submit" name="login" value="Connection">
 </form>
