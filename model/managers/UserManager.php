@@ -27,12 +27,12 @@ class UserManager extends Manager
         );
     }
 
-    public function findOneByUser($user)
+    public function findOneByUser($pseudo)
     {
-        $sql = "SELECT * FROM " . $this->tableName . " WHERE user = :user";
+        $sql = "SELECT * FROM " . $this->tableName . " WHERE pseudo = :pseudo";
 
         return $this->getOneOrNullResult(
-            DAO::select($sql, [":user" => $user], false),
+            DAO::select($sql, [":pseudo" => $pseudo], false),
             $this->className
         );
     }

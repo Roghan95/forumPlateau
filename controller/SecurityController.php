@@ -19,6 +19,8 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function register()
     {
         if (isset($_POST['register'])) {
+            // var_dump("ok");
+            // die;
             $pseudo = filter_input(INPUT_POST, 'pseudo', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
             $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -26,8 +28,6 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
 
             if ($email && $pseudo && $mdp && $mdpConfirm) {
-                // var_dump("ok");
-                // die;
                 $userManager = new UserManager();
                 if (!$userManager->findOneByEmail($email)) {
                     if (!$userManager->findOneByUser($pseudo)) {
@@ -38,19 +38,33 @@ class SecurityController extends AbstractController implements ControllerInterfa
                                 "mdp" => password_hash($mdp, PASSWORD_DEFAULT)
                             ];
                             $userManager->add($data);
-                            $this->redirectTo("security", "login.php");
-                            exit;
+                            // $this->redirectTo("security", "login");
                         } else {
                             // Les mots de passe ne correspondent pas ou sont trop courts
+                            echo "<p>Les mots de passe ne correspondent pas ou sont trop courts</p>";
                         }
                     }
                 } else {
-                    // L'email ou le pseudo existe déjà;
+                    // L'email ou le pseudo existe déjà
+                    echo "<p>L'email ou le pseudo existe déjà</p>";
                 }
             }
         }
         return [
             "view" => VIEW_DIR . "security/register.php"
+        ];
+    }
+
+    public function login()
+    {
+        if (isset($_POST['login'])) {
+            var_dump('"ok"');
+            die;
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS, FILTER_VALIDATE_EMAIL);
+            $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        }
+        return [
+            "view" => VIEW_DIR . "security/login.php"
         ];
     }
 }

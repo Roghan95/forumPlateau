@@ -4,7 +4,7 @@ $users = $result["data"]['users'];
 
 <h1>Se connecter</h1>
 
-<form action="index.php?ctrl=security&action=">
+<form action="index.php?ctrl=security&action=login">
     <label for="email">Email</label>
     <input type="email" name="email" id="email" placeholder="Email" required>
 
