@@ -38,4 +38,20 @@ class PostManager extends Manager
 
         return DAO::update($sql, ['id' => $id, 'texte' => $texte]);
     }
+
+    // Méthode pour récupérer l'id du premier post d'un topic
+    public function findFirstPostByTopic($id)
+    {
+
+        $sql = "SELECT p.id_post
+                FROM " . $this->tableName . " p 
+                WHERE p.topic_id = :id
+                AND p.dateCreation = 
+                (SELECT MIN(dateCreation) FROM post WHERE topic_id = :id)";
+
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['id' => $id], false),
+            $this->className
+        );
+    }
 }

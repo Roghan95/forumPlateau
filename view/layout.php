@@ -37,11 +37,12 @@
                             if (App\Session::getUser()) {
                             ?>
                                 <a href="/security/viewProfile.html"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser() ?></a>
-                                <a href="/security/logout.html">Déconnexion</a>
+                                <a href="index.php?ctrl=forum&action=listCategories">Catégories</a>
+                                <a href="index.php?ctrl=security&action=logout">Déconnexion</a>
                             <?php
                             } else {
                             ?>
-                                <a href="./view/security/login.php">Connexion</a>
+                                <a href="index.php?ctrl=security&action=login">Connexion</a>
                                 <a href="index.php?ctrl=security&action=register">Inscription</a>
                                 <!-- <a href="index.php?ctrl=forum&action=listTopics">Liste des topics</a> -->
                                 <a href="index.php?ctrl=forum&action=listCategories">Catégories</a>

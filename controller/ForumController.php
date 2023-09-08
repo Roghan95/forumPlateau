@@ -94,15 +94,13 @@ class ForumController extends AbstractController implements ControllerInterface
     // Supprimer une catégorie
     public function deleteCategorie($id)
     {
-        if (isset($_POST["deleteCategorie"])) {
-            // On instancie le manager des catégories
-            $categorieManager = new CategorieManager();
+        // On instancie le manager des catégories
+        $categorieManager = new CategorieManager();
 
-            // On supprime la catégorie par son id
-            $categorieManager->delete($id);
-            // On redirige vers la liste des catégories
-            $this->redirectTo("forum", "listCategories");
-        }
+        // On supprime la catégorie par son id
+        $categorieManager->delete($id);
+        // On redirige vers la liste des catégories
+        $this->redirectTo("forum", "listCategories");
     }
     // Modifier une catégorie
     public function updateCategorie($id)
@@ -129,7 +127,7 @@ class ForumController extends AbstractController implements ControllerInterface
             // On ajoute le post selon les données suivantes (texte, user_id, topic_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
             $data = [
                 "texte" => $texte,
-                "user_id" => 4,
+                "user_id" => $_SESSION["user"]->getId(),
                 "topic_id" => $id
             ];
             // var_dump($data);
@@ -139,23 +137,32 @@ class ForumController extends AbstractController implements ControllerInterface
         }
     }
 
-    // Supprimer un post
+    // Méthode pour suppimer un post sauf si c'est le premier post du topic avec findFirstPostByTopic()
     public function deletePost($id)
     {
-        if (isset($_POST["deletePost"])) {
-            // On instancie le manager des posts
-            $postManager = new PostManager();
-            // On supprime le post par son id
+
+        // On instancie les managers
+        $postManager = new PostManager();
+
+        // On récupère l'id du topic du post
+        $post = $postManager->findOneById($id);
+        $idTopic = $post->getTopic()->getId();
+
+        // On récupère l'id du premier post du topic
+        $firstPost = $postManager->findFirstPostByTopic($idTopic);
+
+        $idFirstPost = $firstPost->getId();
+        // Si l'id du post est différent de l'id du premier post du topic, on supprime le post
+        if ($id != $idFirstPost) {
             $postManager->delete($id);
-            // On redirige vers la liste des posts du topic par son id
-            $this->redirectTo("forum", "listPostsByTopic", $id);
         }
+        // On redirige vers la page du topic
+        $this->redirectTo("forum", "listPostsByTopic", $idTopic);
     }
 
     // Modifier un post
     public function updatePostForm($id)
     {
-        // Modifier un post
         $postManager = new PostManager();
         $topicId = $postManager->findOneById($id)->getTopic()->getId();
         if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"])) {
@@ -174,7 +181,7 @@ class ForumController extends AbstractController implements ControllerInterface
             isset($_POST["addTopic"]) && isset($_POST['titre']) && !empty($_POST['titre'])
             && isset($_POST['texte']) && !empty($_POST['texte'])
         ) {
-            // On récupère le titre du topic et on le filtre
+            // On récupère les différents champs du formulaire pour les filtrer
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
             $topicManager = new TopicManager();
@@ -183,7 +190,7 @@ class ForumController extends AbstractController implements ControllerInterface
             // die;
             $data = [
                 "titre" => $titre,
-                "user_id" => 4,
+                "user_id" => $_SESSION["user"]->getId(),
                 "categorie_id" => $id
             ];
 
@@ -191,7 +198,7 @@ class ForumController extends AbstractController implements ControllerInterface
 
             $data2 = [
                 "texte" => $texte,
-                "user_id" => 4,
+                "user_id" => $_SESSION["user"]->getId(),
                 "topic_id" => $topicId
             ];
             $postManager->add($data2);

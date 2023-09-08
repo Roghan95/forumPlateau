@@ -11,21 +11,25 @@ $categories = $result["data"]['categories'];
                 <!-- Affiche le nom de la catégorie -->
                 <a href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $categorie->getId() ?>">
                     <p><?= $categorie->getNomCategorie() ?></p>
-                    <!-- Bouton deleteCategorie -->
-                    <form action="index.php?ctrl=forum&action=deleteCategorie&id=<?= $categorie->getId() ?>" method="post">
-                        <input type="submit" name="deleteCategorie" value="Supprimer">
-                    </form>
+
+                    <?php if ((App\Session::isAdmin())) { ?>
+                        <a href="index.php?ctrl=forum&action=deleteCategorie&id=<?= $categorie->getId() ?>">Supprimer</a>
+                    <?php } ?>
                 </a>
-                <form action="index.php?ctrl=forum&action=updateCategorie&id=<?= $categorie->getId() ?>" method="post">
-                    <input type="text" name="nomCategorie" placeholder="Modifier le titre" required>
-                    <input type="submit" name="updateCategorie" value="Modifier">
+                <?php if ((App\Session::isAdmin())) { ?>
+                    <form action="index.php?ctrl=forum&action=updateCategorie&id=<?= $categorie->getId() ?>" method="post">
+                        <input type="text" name="nomCategorie" placeholder="Modifier le titre" required>
+                        <input type="submit" name="updateCategorie" value="Modifier">
+                    </form>
+                <?php } ?>
+            <?php } ?>
+            <?php if ((App\Session::isAdmin())) { ?>
+                <form action="index.php?ctrl=forum&action=addCategorie" method="post">
+                    <label for="nomCategorie">Ajouter une catégorie :</label>
+                    <input type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>
+                    <input type="submit" name="addCategorie" value="Ajouter">
                 </form>
             <?php } ?>
-            <form action="index.php?ctrl=forum&action=addCategorie" method="post">
-                <label for="nomCategorie">Ajouter une catégorie :</label>
-                <input type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>
-                <input type="submit" name="addCategorie" value="Ajouter">
-            </form>
         </div>
     </div>
 </div>

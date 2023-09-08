@@ -14,6 +14,8 @@ $topic = $result["data"]['topic'];
     echo "Aucun message n'a été trouvé dans ce topic.";
 ?>
 <?php } else { ?>
+    <!-- <button>Supp.Topic</button>
+    <button>Vérouiller</button> -->
     <div class="posts-container">
         <?php
         foreach ($posts as $post) { ?>
@@ -32,12 +34,17 @@ $topic = $result["data"]['topic'];
                     <?= $post->getTexte() ?>
                 </p>
             </div>
+
             <!-- Form pour modifier le post avec un input type submit -->
-            <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
-                <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
-                <input type="submit" name="updatePost" value="Modifier">
-            </form>
+            <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
+                <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
+                    <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
+                    <input type="submit" name="updatePost" value="Modifier">
+                </form>
+                <a href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
+            <?php } ?>
         <?php } ?>
+
         <!-- Form qui permet de répondre a un post -->
         <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>" method="post">
             <label for="message-textarea">Répondre: </label>
