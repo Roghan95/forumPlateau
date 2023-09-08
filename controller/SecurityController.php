@@ -49,5 +49,8 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 }
             }
         }
+        return [
+            "view" => VIEW_DIR . "security/register.php"
+        ];
     }
 }
