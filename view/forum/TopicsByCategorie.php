@@ -63,7 +63,7 @@ if (empty($topics)) { ?>
             </tr>
         <?php } ?>
     </table>
-    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
+    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]))) { ?>
         <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
             <input class="titre-form" type="text" name="titre" placeholder="Sujet :">
             <textarea name="texte" placeholder="Message"></textarea>

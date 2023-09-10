@@ -234,4 +234,20 @@ class ForumController extends AbstractController implements ControllerInterface
             }
         }
     }
+
+    // Méthode pour vérouiller un topic
+    public function lockTopic($id)
+    {
+        $topicManager = new TopicManager();
+        $topicManager->lockTopic($id);
+        $this->redirectTo("forum", "listPostsByTopic", $id);
+    }
+
+    // Méthode pour dévérouiller un topic
+    public function unlockTopic($id)
+    {
+        $topicManager = new TopicManager();
+        $topicManager->unlockTopic($id);
+        $this->redirectTo("forum", "listPostsByTopic", $id);
+    }
 }

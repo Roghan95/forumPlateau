@@ -12,11 +12,22 @@ final class User extends Entity
     private $dateInscription;
     private $role;
     private $email;
+    private $isBan;
 
 
     public function __construct($data)
     {
         $this->hydrate($data);
+    }
+
+    public function getIsBan()
+    {
+        return $this->isBan;
+    }
+
+    public function setIsBan($isBan)
+    {
+        $this->isBan = $isBan;
     }
 
     public function getId()

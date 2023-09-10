@@ -17,8 +17,18 @@ $topic = $result["data"]['topic'];
     <!-- <button>Supp.Topic</button>
     <button>Vérouiller</button> -->
     <div class="posts-container">
-        <?php
-        foreach ($posts as $post) { ?>
+
+        <!-- On vérifie si l'utilisateur est admin ou l'auteur pour afficher lock et unlock -->
+        <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
+
+            <?php if ($topic->getLocked() == 0) { ?>
+                <a class="lock" href="index.php?ctrl=forum&action=lockTopic&id=<?= $topic->getId() ?>">Verrouiller</a>
+            <?php } else { ?>
+                <a class="unlock" href="index.php?ctrl=forum&action=unlockTopic&id=<?= $topic->getId() ?>">Deverrouiller</a>
+            <?php } ?>
+        <?php } ?>
+
+        <?php foreach ($posts as $post) { ?>
             <div class="post-info">
                 <figure>
                     <img src="https://picsum.photos/50/50" alt="Photo de profil">
@@ -36,6 +46,7 @@ $topic = $result["data"]['topic'];
             </div>
 
             <!-- Form pour modifier le post avec un input type submit -->
+            <!-- On vérifie si l'utilisateur et admin ou l'auteur du post pour permettre la modification du post -->
             <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
                 <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
                     <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
@@ -45,13 +56,19 @@ $topic = $result["data"]['topic'];
             <?php } ?>
         <?php } ?>
 
-        <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
-            <!-- Form qui permet de répondre a un post -->
-            <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>" method="post">
-                <label for="message-textarea">Répondre: </label>
-                <textarea id="message-textarea" name="texte" required></textarea>
-                <input class="submit" type="submit" name="addPost" value="POSTER">
-            </form>
+        <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]))) { ?>
+            <!-- On vérifie que le topic n'est pas lock pour afficher le formulaire d'ajout de post -->
+            <?php if ($topic->getLocked() == 0) { ?>
+                <!-- Form qui permet de répondre a un post -->
+                <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>" method="post">
+                    <label for="message-textarea">Répondre: </label>
+                    <textarea id="message-textarea" name="texte" required></textarea>
+                    <input class="submit" type="submit" name="addPost" value="POSTER">
+                </form>
+            <?php } else { ?>
+                <!-- Si non on affiche un message qui dit que c'est verrouillé -->
+                <p>Le topic est verrouillé</p>
+            <?php } ?>
         <?php } ?>
     </div>
 <?php } ?>
