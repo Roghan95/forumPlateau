@@ -10,17 +10,23 @@ $topic = $result["data"]['topic'];
     <?= $topic->getTitre() ?>
 </h1>
 
+
 <?php if (empty($posts)) {
     echo "Aucun message n'a été trouvé dans ce topic.";
 ?>
 <?php } else { ?>
-    <!-- <button>Supp.Topic</button>
-    <button>Vérouiller</button> -->
     <div class="posts-container">
-
         <!-- On vérifie si l'utilisateur est admin ou l'auteur pour afficher lock et unlock -->
         <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
+            <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
+                <input class="titre-form" type="text" name="titre" placeholder="Modifier le titre">
+                <input class="submit" type="submit" name="updateTopic" value="Modifier">
+            </form>
+            <!-- Bouton supprimer un topic -->
+            <a class="submit" href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
+        <?php } ?>
 
+        <?php if ((App\Session::isAdmin())) { ?>
             <?php if ($topic->getLocked() == 0) { ?>
                 <a class="lock" href="index.php?ctrl=forum&action=lockTopic&id=<?= $topic->getId() ?>">Verrouiller</a>
             <?php } else { ?>
@@ -46,7 +52,7 @@ $topic = $result["data"]['topic'];
             </div>
 
             <!-- Form pour modifier le post avec un input type submit -->
-            <!-- On vérifie si l'utilisateur et admin ou l'auteur du post pour permettre la modification du post -->
+            <!-- On vérifie si l'utilisateur est admin ou l'auteur du post pour permettre la modification du post -->
             <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
                 <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
                     <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>

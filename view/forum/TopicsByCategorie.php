@@ -37,13 +37,6 @@ if (empty($topics)) { ?>
                     <a href="index.php?ctrl=forum&action=listPostsByTopic&id=<?= $topic->getId() ?>">
                         <?= $topic->getTitre() ?>
                     </a>
-                    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
-                        <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
-                            <input class="titre-form" type="text" name="titre" placeholder="Modifier le titre">
-                            <input class="submit" type="submit" name="updateTopic" value="Modifier">
-                        </form>
-                        <a class="submit" href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
-                    <?php } ?>
                 </td>
                 <td>
                     <a href="">

@@ -24,18 +24,16 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `id_categorie` int NOT NULL AUTO_INCREMENT,
   `nomCategorie` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id_categorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Listage des données de la table forum_aliev.categorie : ~0 rows (environ)
+-- Listage des données de la table forum_aliev.categorie : ~6 rows (environ)
 INSERT INTO `categorie` (`id_categorie`, `nomCategorie`) VALUES
-	(15, 'Discussions générales'),
 	(16, 'Actualités et événements'),
-	(18, 'Technologie et informatique'),
 	(19, 'Santé et bien-être'),
 	(20, 'Loisirs et hobbies'),
-	(22, 'Sports et activités physiques'),
-	(23, 'Style de vie et relations'),
-	(24, 'Annonces et suggestions');
+	(23, 'Ceci est un teste de catégorie'),
+	(24, 'Annonces et suggestions'),
+	(29, 'Sport');
 
 -- Listage de la structure de table forum_aliev. post
 CREATE TABLE IF NOT EXISTS `post` (
@@ -49,26 +47,24 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`),
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Listage des données de la table forum_aliev.post : ~16 rows (environ)
+-- Listage des données de la table forum_aliev.post : ~10 rows (environ)
 INSERT INTO `post` (`id_post`, `texte`, `dateCreation`, `user_id`, `topic_id`) VALUES
-	(11, 'Sujet : "Votre escapade estivale préférée"\r\n\r\nMessage : "Bonjour à tous ! L\'été approche à grands pas, et je me demande quelles sont vos destinations de vacances estivales préférées. Avez-vous des endroits que vous recommanderiez absolument ? Partagez vos expériences de voyage, les aventures inoubliables que vous avez vécues et les conseils pour des vacances parfaites. J\'ai hâte de lire vos récits et de trouver de l\'inspiration pour mes propres voyages estivaux !', '2023-09-06 09:24:17', 7, 15),
+	(11, 'fghjjjfdg', '2023-09-06 09:24:17', 7, 15),
 	(12, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 09:24:54', 7, 15),
-	(16, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 09:25:48', 5, 19),
-	(17, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 09:26:09', 5, 19),
-	(38, 'Sujet : "Votre escapade estivale préférée"Message : "Bonjour à tous ! L\'été approche à grands pas, et je me demande quelles sont vos destinations de vacances estivales préférées. Avez-vous des endroits que vous recommanderiez absolument ? Partagez vos expériences de voyage, les aventures inoubliables que vous avez vécues et les conseils pour des vacances parfaites. J\'ai hâte de lire vos récits et de trouver de l\'inspiration pour mes propres voyages estivaux !', '2023-09-06 09:50:58', 4, 20),
-	(41, 'Sujet : "Votre escapade estivale préférée"Message : "Bonjour à tous ! L\'été approche à grands pas, et je me demande quelles sont vos destinations de vacances estivales préférées. Avez-vous des endroits que vous recommanderiez absolument ? Partagez vos expériences de voyage, les aventures inoubliables que vous avez vécues et les conseils pour des vacances parfaites. J\'ai hâte de lire vos récits et de trouver de l\'inspiration pour mes propres voyages estivaux !', '2023-09-06 10:12:31', 4, 15),
 	(42, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:00:07', 4, 8),
-	(43, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:00:23', 6, 5),
 	(44, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:00:34', 5, 24),
-	(45, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:01:41', 6, 13),
 	(46, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:01:56', 7, 16),
-	(47, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:02:13', 7, 14),
-	(49, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 11:03:22', 6, 22),
-	(50, 'gfgfhfg', '2023-09-06 11:36:08', 4, 19),
-	(51, 'gdfgdf', '2023-09-06 11:51:38', 4, 19),
-	(52, 'sqdqsd', '2023-09-06 16:40:38', 4, 19);
+	(66, 'ytytuh', '2023-09-08 15:55:58', 4, 58),
+	(102, 'touche pas wsh&#13;&#10;', '2023-09-08 23:36:16', 15, 60),
+	(104, 'Test 1', '2023-09-09 00:07:55', 16, 60),
+	(111, 'rhrgfesf', '2023-09-10 20:59:08', 17, 65),
+	(112, 'hrytfhrtrfze', '2023-09-10 20:59:10', 17, 65),
+	(113, 'sqdqsdq', '2023-09-10 21:00:39', 17, 60),
+	(114, 'on vérrouille ou déverrouille', '2023-09-10 21:04:12', 17, 66),
+	(121, 'qsdqd', '2023-09-10 22:06:23', 15, 72),
+	(122, 'ze', '2023-09-10 22:07:11', 17, 72);
 
 -- Listage de la structure de table forum_aliev. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -83,40 +79,50 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`) ON DELETE CASCADE,
   CONSTRAINT `topic_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Listage des données de la table forum_aliev.topic : ~12 rows (environ)
+-- Listage des données de la table forum_aliev.topic : ~9 rows (environ)
 INSERT INTO `topic` (`id_topic`, `locked`, `titre`, `dateCreation`, `categorie_id`, `user_id`) VALUES
-	(5, 0, 'Quel est votre passe-temps préféré en dehors d\'Internet ?', '2023-09-06 09:08:17', 15, 7),
-	(8, 0, 'Quels sont les films à ne pas manquer cet été ?', '2023-09-06 09:10:32', 16, 4),
-	(13, 0, 'Stratégies pour améliorer la qualité de votre sommeil.', '2023-09-06 09:12:57', 19, 7),
-	(14, 0, 'Partagez vos astuces de relaxation et de gestion du stress.', '2023-09-06 09:13:24', 19, 7),
+	(8, 1, 'Quels sont les films à ne pas manquer cet été ?', '2023-09-06 09:10:32', 16, 4),
 	(15, 0, 'Les meilleures destinations de voyage pour les amateurs de nature.', '2023-09-06 09:13:45', 20, 4),
 	(16, 0, 'Conseils pour cultiver un jardin biologique à la maison.', '2023-09-06 09:14:12', 20, 4),
-	(19, 0, 'Analyse des performances de votre équipe sportive favorite.', '2023-09-06 09:15:39', 22, 6),
-	(20, 0, 'Programmes d\'entraînement pour la musculation à domicile.', '2023-09-06 09:16:01', 22, 6),
-	(22, 0, 'Idées de cadeaux originaux pour célébrer une occasion spéciale.', '2023-09-06 09:16:52', 23, 7),
 	(24, 0, 'Prochaines mises à jour et améliorations prévues pour le site.', '2023-09-06 09:17:52', 24, 4),
-	(33, 0, 'dfgdfgdfg', '2023-09-06 15:29:58', 24, 4),
-	(34, 0, 'dfgdfgd', '2023-09-06 16:08:57', 16, 4);
+	(58, 0, 'Ceci est un teste de sujet', '2023-09-08 15:55:58', 23, 4),
+	(60, 0, 'mon sujet', '2023-09-08 23:36:16', 19, 15),
+	(65, 0, 'qsdqsd', '2023-09-10 20:59:08', 19, 17),
+	(66, 1, 'vérrouillage', '2023-09-10 21:04:12', 19, 17),
+	(72, 1, 'Aujourdhui', '2023-09-10 22:06:23', 29, 15);
 
 -- Listage de la structure de table forum_aliev. user
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `pseudo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'user',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `mdp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `dateInscription` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  `isBan` datetime DEFAULT NULL,
+  PRIMARY KEY (`id_user`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `pseudo` (`pseudo`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Listage des données de la table forum_aliev.user : ~0 rows (environ)
-INSERT INTO `user` (`id_user`, `pseudo`, `mdp`, `dateInscription`, `role`, `email`) VALUES
-	(4, 'Baisangour', '123', '2023-09-06 09:02:01', 'admin', 'admin@gmail.com'),
-	(5, 'Cédric', '123', '2023-09-06 09:02:43', 'user', 'cédric@gmail.com'),
-	(6, 'Mansour', '123', '2023-09-06 09:03:07', 'user', 'mansour@gmail.com'),
-	(7, 'Aziz', '123', '2023-09-06 09:03:24', 'user', 'aziz@gmail.com');
+-- Listage des données de la table forum_aliev.user : ~14 rows (environ)
+INSERT INTO `user` (`id_user`, `pseudo`, `role`, `email`, `mdp`, `dateInscription`, `isBan`) VALUES
+	(4, 'Baisangour', 'user', 'admin@gmail.com', '123', '2023-09-06 09:02:01', NULL),
+	(5, 'Cédric', 'user', 'cédric@gmail.com', '123', '2023-09-06 09:02:43', NULL),
+	(6, 'Mansour', 'user', 'mansour@gmail.com', '123', '2023-09-06 09:03:07', NULL),
+	(7, 'Aziz', 'user', 'aziz@gmail.com', '123', '2023-09-06 09:03:24', NULL),
+	(8, 'aa', 'user', 'aaa@aa.aa', '$2y$10$nlUfkpGmB7pskQI5JhxKN.F1azEQgJNbHJQponL0ASYXRYtSu.czi', '2023-09-08 14:40:43', NULL),
+	(9, 'Quentin', 'user', 'quentin@gmail.com', '$2y$10$P/E8tOAq4kYdpho2G1Ra5eX1vpAGnZdVO5Sr7.PeZVezKAACft/J6', '2023-09-08 14:53:03', NULL),
+	(10, 'ali', 'user', 'ali@gmail.com', '$2y$10$4/CQPa4lpr0PDZRq2tPiOeIRC52E/JpMl1COV2BvpTBQbV1zmAnHW', '2023-09-08 14:54:30', NULL),
+	(11, 'aze', 'user', 'aze@gmail.com', '$2y$10$RgTIi3vZTjQOtA1LoHtDGuJzEzTgvNWrLiL8aoWCpY.lIZg2y7p8y', '2023-09-08 15:04:50', NULL),
+	(12, 'azerty', 'user', 'azerty@azerty.fr', '$2y$10$.uAF36zYt.zk1/oD90W4Zu3XPXnww4ONKUzQUwkR9Fm5WSL9C7RuG', '2023-09-08 15:05:22', NULL),
+	(13, 'azea', 'user', 'azea@azea.fr', '$2y$10$S9HqPc45yTYrXJoXSUC4tOWCXn5qtnwbt/ySUlR6/Pxx4Ck/Bgk4K', '2023-09-08 16:06:51', NULL),
+	(14, 'teste', 'user', 'teste@teste.fr', '$2y$10$LWm6gqnAW8ZGOSr6ZwadfOshFpmP616VSJbGzKT6F4hIOcR0HxsN6', '2023-09-08 16:50:44', NULL),
+	(15, 'mansour287', 'ROLE_ADMIN', 'mansour@exemple.com', '$2y$10$jNS2V/MURjH5JLlUfRzBSusD2raUgUgopCNLfAMj0ceTKchamLGF.', '2023-09-08 21:54:46', NULL),
+	(16, 'TestAcc', 'user', 'user@gmail.com', '$2y$10$oETxsui9Hp0NHq/97KXcsO189DiV9YMvj9.SsULZXHT1GGsHE2raW', '2023-09-09 00:07:09', NULL),
+	(17, 'test123', 'user', 'test123@exemple.com', '$2y$10$wG.M1A6mQl1jouX5kpEEeu8Hn9mFGtMo/PC3hc3CxDP3YRqbVy00S', '2023-09-10 16:23:50', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
