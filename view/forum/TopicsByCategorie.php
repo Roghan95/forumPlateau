@@ -13,12 +13,16 @@ $categories = $result["data"]['categories'];
 
 <?php
 if (empty($topics)) { ?>
-    <h2>Ajouter un sujet</h2>
-    <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-        <input type="text" name="titre" placeholder="Sujet : ">
-        <textarea name="texte" id="" cols="30" rows="10" placeholder="Message"></textarea>
-        <input type="submit" name="addTopic" value="OK">
-    </form>
+    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
+        <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
+            <label for="">Ajouter un sujet</label>
+            <input class="titre-form" type="text" name="titre" placeholder="Sujet : ">
+            <textarea name="texte" placeholder="Message"></textarea>
+            <input class="submit" type="submit" name="addTopic" value="OK">
+        </form>
+    <?php } else {
+        echo "Aucun sujet n'a été trouvé dans cette catégorie.";
+    } ?>
 <?php } else { ?>
     <table border=1>
         <tr>
@@ -35,10 +39,10 @@ if (empty($topics)) { ?>
                     </a>
                     <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
                         <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
-                            <input type="text" name="titre" placeholder="Modifier le titre">
-                            <input type="submit" name="updateTopic" value="Modifier">
+                            <input class="titre-form" type="text" name="titre" placeholder="Modifier le titre">
+                            <input class="submit" type="submit" name="updateTopic" value="Modifier">
                         </form>
-                        <a href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
+                        <a class="submit" href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
                     <?php } ?>
                 </td>
                 <td>
@@ -59,9 +63,11 @@ if (empty($topics)) { ?>
             </tr>
         <?php } ?>
     </table>
-    <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-        <input type="text" name="titre" placeholder="Sujet :">
-        <textarea name="texte" id="" cols="30" rows="10" placeholder="Message"></textarea>
-        <input type="submit" name="addTopic" value="Poster">
-    </form>
+    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
+        <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
+            <input class="titre-form" type="text" name="titre" placeholder="Sujet :">
+            <textarea name="texte" placeholder="Message"></textarea>
+            <input class="submit" type="submit" name="addTopic" value="Poster">
+        </form>
+    <?php } ?>
 <?php } ?>

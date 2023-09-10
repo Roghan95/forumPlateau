@@ -12,18 +12,18 @@ $categories = $result["data"]['categories'];
                 <a href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $categorie->getId() ?>">
                     <p><?= $categorie->getNomCategorie() ?></p>
 
-                    <?php if ((App\Session::isAdmin())) { ?>
+                    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $categories->getUser()->getId())) { ?>
                         <a href="index.php?ctrl=forum&action=deleteCategorie&id=<?= $categorie->getId() ?>">Supprimer</a>
                     <?php } ?>
                 </a>
-                <?php if ((App\Session::isAdmin())) { ?>
+                <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $categories->getUser()->getId())) { ?>
                     <form action="index.php?ctrl=forum&action=updateCategorie&id=<?= $categorie->getId() ?>" method="post">
                         <input type="text" name="nomCategorie" placeholder="Modifier le titre" required>
                         <input type="submit" name="updateCategorie" value="Modifier">
                     </form>
                 <?php } ?>
             <?php } ?>
-            <?php if ((App\Session::isAdmin())) { ?>
+            <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $categories->getUser()->getId())) { ?>
                 <form action="index.php?ctrl=forum&action=addCategorie" method="post">
                     <label for="nomCategorie">Ajouter une catégorie :</label>
                     <input type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>

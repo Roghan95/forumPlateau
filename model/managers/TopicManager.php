@@ -42,36 +42,3 @@ class TopicManager extends Manager
         return DAO::update($sql, ['id' => $id, 'titre' => $titre]);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public function findTopicsByUser($id)
-    // {
-    //     $sql = "SELECT t.id_topic, t.titre, t.locked, t.dateCreation, t.user_id, t.categorie_id, 
-    //     COUNT(t.id_topic) AS nbPosts
-    //     FROM user u
-    //     INNER JOIN topic t ON t.user_id = u.id_user
-    //     LEFT JOIN post p ON p.topic_id = t.id_topic
-    //     WHERE u.id_user = :id 
-    //     GROUP BY t.id_topic";
-
-    //     return $this->getMultipleResults(
-    //         DAO::select($sql, ['id' => $id]),
-    //         $this->className
-    //     );
-    // }

@@ -114,4 +114,10 @@ class SecurityController extends AbstractController implements ControllerInterfa
         unset($_SESSION["user"]); // On déconnecte l'user grâce à la fonction PHP
         $this->redirectTo("forum", "listCategories"); // Redirige vers listCategories ("accueil")
     }
+
+    // public function banUser() {
+    //     $userManager = new UserManager();
+
+
+    // }
 }

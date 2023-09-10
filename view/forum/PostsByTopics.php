@@ -39,17 +39,19 @@ $topic = $result["data"]['topic'];
             <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
                 <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
                     <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
-                    <input type="submit" name="updatePost" value="Modifier">
+                    <input class="submit" type="submit" name="updatePost" value="Modifier">
                 </form>
-                <a href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
+                <a class="submit" href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
             <?php } ?>
         <?php } ?>
 
-        <!-- Form qui permet de répondre a un post -->
-        <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>" method="post">
-            <label for="message-textarea">Répondre: </label>
-            <textarea id="message-textarea" name="texte" required></textarea>
-            <input type="submit" name="addPost" value="POSTER">
-        </form>
+        <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
+            <!-- Form qui permet de répondre a un post -->
+            <form class="reponse-form" action="index.php?ctrl=forum&action=addPost&id=<?= $topic->getId() ?>" method="post">
+                <label for="message-textarea">Répondre: </label>
+                <textarea id="message-textarea" name="texte" required></textarea>
+                <input class="submit" type="submit" name="addPost" value="POSTER">
+            </form>
+        <?php } ?>
     </div>
 <?php } ?>

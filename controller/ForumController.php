@@ -186,8 +186,6 @@ class ForumController extends AbstractController implements ControllerInterface
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
             $topicManager = new TopicManager();
             $postManager = new PostManager();
-            // var_dump($texte);
-            // die;
             $data = [
                 "titre" => $titre,
                 "user_id" => $_SESSION["user"]->getId(),

@@ -36,4 +36,24 @@ class UserManager extends Manager
             $this->className
         );
     }
+
+    // Requete pour ban un utilisateur
+    // public function banUser($id, $isBan)
+    // {
+    //     $sql = "UPDATE " . $this->tableName . " user
+    //     SET user.isBan = :isBan 
+    //     WHERE user.id = :id";
+
+    //     return DAO::update($sql, [":id" => $id]);
+    // }
+
+    // Requete pour unban un utilisateur
+    // public function unbanUser($id)
+    // {
+    //     $sql = "UPDATE " . $this->tableName . " user
+    //     SET user.isBan = NULL
+    //     WHERE user.id = :id";
+
+    //     return DAO::update($sql, [":id" => $id]);
+    // }
 }
