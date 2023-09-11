@@ -128,10 +128,10 @@ class ForumController extends AbstractController implements ControllerInterface
     public function addPost($id)
     {
         // Si on clique sur le bouton "Ajouter un post" alors on récupère le texte du post et on le filtre, ensuite on vérifie si l'utilisateur est connecté ou qu'il est admin
-        if (isset($_POST["addPost"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId($id))) {
+        $postManager = new PostManager();
+        if (isset($_POST["addPost"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId())) {
             // On récupère le texte du post et on le filtre
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $postManager = new PostManager();
 
             // On ajoute le post selon les données suivantes (texte, user_id, topic_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
             $data = [
