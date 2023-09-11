@@ -42,7 +42,7 @@ class UserManager extends Manager
     public function banUser($id, $isBan)
     {
         $sql = "UPDATE " . $this->tableName . " user
-        SET user.isBan = :isBan 
+        SET user.isBan = TRUE
         WHERE user.id = :id";
 
         return DAO::update($sql, [":id" => $id, ":isBan" => $isBan]);

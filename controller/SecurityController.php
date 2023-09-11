@@ -132,4 +132,17 @@ class SecurityController extends AbstractController implements ControllerInterfa
             ]
         ];
     }
+
+    // Méthode pour ban un utilisateur
+    public function banUser()
+    {
+        $userManager = new UserManager();
+        $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
+        $banUser = filter_input(INPUT_GET, "dateBan", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if ($id) {
+            $userManager->banUser($id, $banUser);
+            $this->redirectTo("security", "listUsers");
+        }
+    }
 }

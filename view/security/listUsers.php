@@ -3,7 +3,7 @@ $users = $result["data"]['users'];
 
 ?>
 
-<table class="usersTable" border=1>
+<table class="usersTable" border=1 style="padding: 10px;">
     <tr>
         <th>Pseudo</th>
         <th>Email</th>
@@ -19,7 +19,6 @@ $users = $result["data"]['users'];
             <td>
                 <p><?= $user->getEmail() ?></p>
             </td>
-
             <td>
                 <p><?= $user->getRole() ?></p>
             </td>
@@ -28,13 +27,16 @@ $users = $result["data"]['users'];
             </td>
             <td>
                 <?php if ($user->getIsBan() == null) {  ?>
-                    <bouton>Bannir</bouton>
-                    <form action="">
+                    <button style="background-color:red; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;">Bannir</button>
+                    <form action="index.php?ctrl=security&action=banUser&id=<?= $user->getId() ?>">
                         <input type="date" name="dateBan">
-                        <input type="submit" name="ban" value="Bannir">
+                        <input type="submit" name="banUser" value="Bannir">
                     </form>
                 <?php } else { ?>
-                    <p><?= $user->getIsBan() ?></p>
+                    <p style="color:red;">L'utilisateur est banni jusqu'au : <?= $user->getIsBan() ?></p>
+                    <form action="index.php?ctrl=security&action=unbanUser&id=<?= $user->getId() ?>">
+                        <input style="background-color:green; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;" type="submit" name="unbanUser" value="Débannir">
+                    </form>
                 <?php } ?>
             </td>
         </tr>
