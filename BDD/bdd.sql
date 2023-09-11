@@ -33,7 +33,7 @@ INSERT INTO `categorie` (`id_categorie`, `nomCategorie`) VALUES
 	(20, 'Loisirs et hobbies'),
 	(23, 'Ceci est un teste de catégorie'),
 	(24, 'Annonces et suggestions'),
-	(29, 'Sport');
+	(29, 'aaaaaaaaaaaa');
 
 -- Listage de la structure de table forum_aliev. post
 CREATE TABLE IF NOT EXISTS `post` (
@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`),
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Listage des données de la table forum_aliev.post : ~10 rows (environ)
+-- Listage des données de la table forum_aliev.post : ~14 rows (environ)
 INSERT INTO `post` (`id_post`, `texte`, `dateCreation`, `user_id`, `topic_id`) VALUES
 	(11, 'fghjjjfdg', '2023-09-06 09:24:17', 7, 15),
 	(12, 'Sujet : "Votre escapade estivale préférée"', '2023-09-06 09:24:54', 7, 15),
@@ -61,10 +61,10 @@ INSERT INTO `post` (`id_post`, `texte`, `dateCreation`, `user_id`, `topic_id`) V
 	(104, 'Test 1', '2023-09-09 00:07:55', 16, 60),
 	(111, 'rhrgfesf', '2023-09-10 20:59:08', 17, 65),
 	(112, 'hrytfhrtrfze', '2023-09-10 20:59:10', 17, 65),
-	(113, 'sqdqsdq', '2023-09-10 21:00:39', 17, 60),
+	(113, '123', '2023-09-10 21:00:39', 17, 60),
 	(114, 'on vérrouille ou déverrouille', '2023-09-10 21:04:12', 17, 66),
-	(121, 'qsdqd', '2023-09-10 22:06:23', 15, 72),
-	(122, 'ze', '2023-09-10 22:07:11', 17, 72);
+	(125, 'qsd', '2023-09-11 08:39:57', 15, 75),
+	(128, 'qsd', '2023-09-11 09:07:59', 17, 58);
 
 -- Listage de la structure de table forum_aliev. topic
 CREATE TABLE IF NOT EXISTS `topic` (
@@ -79,11 +79,11 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `topic_ibfk_1` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id_categorie`) ON DELETE CASCADE,
   CONSTRAINT `topic_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- Listage des données de la table forum_aliev.topic : ~9 rows (environ)
+-- Listage des données de la table forum_aliev.topic : ~10 rows (environ)
 INSERT INTO `topic` (`id_topic`, `locked`, `titre`, `dateCreation`, `categorie_id`, `user_id`) VALUES
-	(8, 1, 'Quels sont les films à ne pas manquer cet été ?', '2023-09-06 09:10:32', 16, 4),
+	(8, 0, 'Quels sont les films à ne pas manquer cet été ?', '2023-09-06 09:10:32', 16, 4),
 	(15, 0, 'Les meilleures destinations de voyage pour les amateurs de nature.', '2023-09-06 09:13:45', 20, 4),
 	(16, 0, 'Conseils pour cultiver un jardin biologique à la maison.', '2023-09-06 09:14:12', 20, 4),
 	(24, 0, 'Prochaines mises à jour et améliorations prévues pour le site.', '2023-09-06 09:17:52', 24, 4),
@@ -91,7 +91,7 @@ INSERT INTO `topic` (`id_topic`, `locked`, `titre`, `dateCreation`, `categorie_i
 	(60, 0, 'mon sujet', '2023-09-08 23:36:16', 19, 15),
 	(65, 0, 'qsdqsd', '2023-09-10 20:59:08', 19, 17),
 	(66, 1, 'vérrouillage', '2023-09-10 21:04:12', 19, 17),
-	(72, 1, 'Aujourdhui', '2023-09-10 22:06:23', 29, 15);
+	(75, 0, 'qsddqd', '2023-09-11 08:39:57', 29, 15);
 
 -- Listage de la structure de table forum_aliev. user
 CREATE TABLE IF NOT EXISTS `user` (
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Listage des données de la table forum_aliev.user : ~14 rows (environ)
 INSERT INTO `user` (`id_user`, `pseudo`, `role`, `email`, `mdp`, `dateInscription`, `isBan`) VALUES
-	(4, 'Baisangour', 'user', 'admin@gmail.com', '123', '2023-09-06 09:02:01', NULL),
+	(4, 'Baisangour', 'user', 'admin@gmail.com', '123', '2023-09-06 09:02:01', '2023-09-11 11:09:10'),
 	(5, 'Cédric', 'user', 'cédric@gmail.com', '123', '2023-09-06 09:02:43', NULL),
 	(6, 'Mansour', 'user', 'mansour@gmail.com', '123', '2023-09-06 09:03:07', NULL),
 	(7, 'Aziz', 'user', 'aziz@gmail.com', '123', '2023-09-06 09:03:24', NULL),
