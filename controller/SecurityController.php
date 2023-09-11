@@ -120,4 +120,16 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
 
     // }
+
+    // Méthode pour afficher les utilisateurs
+    public function listUsers()
+    {
+        $userManager = new UserManager();
+        return [
+            "view" => VIEW_DIR . "security/listUsers.php",
+            "data" => [
+                "users" => $userManager->findAll(["dateInscription", "DESC"])
+            ]
+        ];
+    }
 }

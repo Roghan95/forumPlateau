@@ -29,7 +29,8 @@ class UserManager extends Manager
 
     public function findOneByUser($pseudo)
     {
-        $sql = "SELECT * FROM " . $this->tableName . " WHERE pseudo = :pseudo";
+        $sql = "SELECT * FROM " . $this->tableName . " WHERE pseudo = :pseudo
+        ORDER BY dateInscription ASC";
 
         return $this->getOneOrNullResult(
             DAO::select($sql, [":pseudo" => $pseudo], false),
@@ -38,22 +39,22 @@ class UserManager extends Manager
     }
 
     // Requete pour ban un utilisateur
-    // public function banUser($id, $isBan)
-    // {
-    //     $sql = "UPDATE " . $this->tableName . " user
-    //     SET user.isBan = :isBan 
-    //     WHERE user.id = :id";
+    public function banUser($id, $isBan)
+    {
+        $sql = "UPDATE " . $this->tableName . " user
+        SET user.isBan = :isBan 
+        WHERE user.id = :id";
 
-    //     return DAO::update($sql, [":id" => $id]);
-    // }
+        return DAO::update($sql, [":id" => $id, ":isBan" => $isBan]);
+    }
 
     // Requete pour unban un utilisateur
-    // public function unbanUser($id)
-    // {
-    //     $sql = "UPDATE " . $this->tableName . " user
-    //     SET user.isBan = NULL
-    //     WHERE user.id = :id";
+    public function unbanUser($id)
+    {
+        $sql = "UPDATE " . $this->tableName . " user
+        SET user.isBan = NULL
+        WHERE user.id = :id";
 
-    //     return DAO::update($sql, [":id" => $id]);
-    // }
+        return DAO::update($sql, [":id" => $id]);
+    }
 }

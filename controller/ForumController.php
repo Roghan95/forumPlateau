@@ -96,7 +96,6 @@ class ForumController extends AbstractController implements ControllerInterface
     {
         // On instancie le manager des catégories
         $categorieManager = new CategorieManager();
-
         // On supprime la catégorie par son id
         $categorieManager->delete($id);
         // On redirige vers la liste des catégories
