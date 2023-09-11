@@ -129,7 +129,7 @@ class ForumController extends AbstractController implements ControllerInterface
     {
         // Si on clique sur le bouton "Ajouter un post" alors on récupère le texte du post et on le filtre, ensuite on vérifie si l'utilisateur est connecté ou qu'il est admin
         $postManager = new PostManager();
-        if (isset($_POST["addPost"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId())) {
+        if (isset($_POST["addPost"]) && isset($_SESSION["user"])) {
             // On récupère le texte du post et on le filtre
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -143,20 +143,27 @@ class ForumController extends AbstractController implements ControllerInterface
         } else {
             Session::addFlash("error", "Vous devez être connectés pour faire cet action!");
         }
+
+        if ($postManager) {
+            Session::addFlash("success", "Merci d'avoir répondu !");
+        } else {
+            Session::addFlash("error", "Une erreur est survenue, veuillez réessayer.");
+        }
         $this->redirectTo("forum", "listPostsByTopic", $id);
     }
 
     // Méthode pour suppimer un post sauf si c'est le premier post du topic avec findFirstPostByTopic()
     public function deletePost($id)
     {
-        // On vérifie si l'utilisateur est admin ou l'auteur du post pour supprimer le post
-        if ((Session::isAdmin()) || ($_SESSION["user"]) && $_SESSION["user"]->getId($id)) {
-            // On instancie les managers
-            $postManager = new PostManager();
+        // On instancie les managers
+        $postManager = new PostManager();
 
-            // On récupère l'id du topic du post
-            $post = $postManager->findOneById($id);
-            $idTopic = $post->getTopic()->getId();
+        // On récupère l'id du topic du post
+        $post = $postManager->findOneById($id);
+        $idTopic = $post->getTopic()->getId();
+
+        // On vérifie si l'utilisateur est admin ou l'auteur du post pour supprimer le post
+        if ((Session::isAdmin()) || ($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId()) {
 
             // On récupère l'id du premier post du topic
             $firstPost = $postManager->findFirstPostByTopic($idTopic);
@@ -169,6 +176,13 @@ class ForumController extends AbstractController implements ControllerInterface
         } else {
             Session::addFlash("error", "Vous devez être connectés pour faire cet action!");
         }
+
+        if ($id != $idFirstPost) {
+            Session::addFlash("success", "Message supprimé avec succès");
+        } else {
+            Session::addFlash("error", "Vous ne pouvez pas supprimé le premier message de ce topic");
+        }
+
         // On redirige vers la page du topic
         $this->redirectTo("forum", "listPostsByTopic", $idTopic);
     }
@@ -176,17 +190,17 @@ class ForumController extends AbstractController implements ControllerInterface
     // Modifier un post
     public function updatePostForm($id)
     {
-        // On instancie le manager des posts
-        if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId($id))) {
-            // On récupère le texte du post et on le filtre
-            $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS);
-            // On instancie le manager des posts
-            $postManager = new PostManager();
-            // On récupère l'id du topic du post
-            $topicId = $postManager->findOneById($id)->getTopic()->getId();
+
+        $postManager = new PostManager(); // On instancie le manager des posts
+
+        $topicId = $postManager->findOneById($id)->getTopic()->getId(); // On récupère l'id du topic du post
+        if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicId->getUser()->getId())) {
+            $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS); // On récupère le champ texte du form et on le filtre
             if ($texte) {
-                // On instancie le manager des posts
                 $postManager->updatePostAction($id, $texte);
+                Session::addFlash("success", "Message modifié avec succès.");
+            } else {
+                Session::addFlash("error", "Une erreur est survenue, veuillez réessayer");
             }
         }
         $this->redirectTo("forum", "listPostsByTopic", $topicId);
@@ -229,38 +243,39 @@ class ForumController extends AbstractController implements ControllerInterface
     // Supprimer un topic
     public function deleteTopic($id)
     {
-        if (Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId($id))) {
-            // On instancie le manager des topics
-            $topicManager = new TopicManager();
-            // On récupère le topic par son id
-            $topic = $topicManager->findOneById($id);
+        // On instancie le manager topic
+        $topicManager = new TopicManager();
 
-            $idCategorie = $topic->getCategorie()->getId();
+        $topic = $topicManager->findOneById($id);
+        $idCategorie = $topic->getCategorie()->getId();
+        if (Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicManager->findOneById($id)->getUser()->getId())) {
+
             // // On supprime le topic par son id
             $topicManager->delete($id);
-            // On redirige vers la liste des topics
+            Session::addFlash("success", "Topic supprimé"); // Message d'erreur
         } else {
-            Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
+            Session::addFlash("error", "Vous n'avez pas les droits pour cet action!"); // Message d'erreur
         }
-        $this->redirectTo("forum", "listTopicsByCategorie", $idCategorie);
+        $this->redirectTo("forum", "listTopicsByCategorie", $idCategorie); // Redirection
     }
 
     // Modifier un topic
     public function updateTopic($id)
     {
         $topicManager = new TopicManager(); // On instancie le mananger
-        if (Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicManager->findOneById($id)->getUser()->getId())) {
-            if (isset($_POST["updateTopic"]) && isset($_POST["titre"]) && !empty($_POST["titre"])) {
-                $categorieId = $topicManager->findOneById($id)->getCategorie()->getId(); // On récupère l'id de la catégorie du topic
-                $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
-                if ($titre) {
-                    $topicManager->updateTopic($id, $titre);
-                }
+        $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS); // On filtre le champ "titre" du form
+
+        $categorieId = $topicManager->findOneById($id)->getCategorie()->getId(); // On récupère l'id de la catégorie du topic
+
+        if (isset($_POST["updateTopic"]) && Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicManager->findOneById($id)->getUser()->getId())) {
+            if ($titre) {
+                $topicManager->updateTopic($id, $titre);
+                Session::addFlash("success", "Le titre du topic modifié avec succès.");
+            } else {
+                Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
             }
-        } else {
-            Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
         }
-        $this->redirectTo("forum", "listTopicsByCategorie", $categorieId);
+        $this->redirectTo("forum", "listPostsByTopic", $categorieId);
     }
 
     // Méthode pour vérouiller un topic
@@ -269,6 +284,7 @@ class ForumController extends AbstractController implements ControllerInterface
         if (Session::isAdmin()) {
             $topicManager = new TopicManager();
             $topicManager->lockTopic($id);
+            Session::addFlash("success", "Topic verrouillé");
         } else {
             Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
         }
@@ -281,8 +297,10 @@ class ForumController extends AbstractController implements ControllerInterface
         if (Session::isAdmin()) {
             $topicManager = new TopicManager();
             $topicManager->unlockTopic($id);
+
+            Session::addFlash("sucess", "Topic déverrouillé"); // Message de succès
         } else {
-            Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
+            Session::addFlash("error", "Vous n'avez pas les droits pour cet action!"); // Message d'erreur
         }
         $this->redirectTo("forum", "listPostsByTopic", $id);
     }
