@@ -19,7 +19,7 @@ $topic = $result["data"]['topic'];
         <!-- On vérifie si l'utilisateur est admin ou l'auteur pour afficher lock et unlock -->
         <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
             <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
-                <input class="titre-form" type="text" name="titre" placeholder="Modifier le titre">
+                <input class="titre-form" type="text" name="titre" placeholder="Modifier le titre" required>
                 <input class="submit" type="submit" name="updateTopic" value="Modifier">
             </form>
             <!-- Bouton supprimer un topic -->
@@ -56,7 +56,7 @@ $topic = $result["data"]['topic'];
             <div class="modifier-post">
                 <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
                     <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
-                        <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
+                        <textarea type="text" name="texte" placeholder="Modifier le texte" required></textarea>
                         <input class="submit" type="submit" name="updatePost" value="Modifier">
                     </form>
                     <a class="submit" href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>

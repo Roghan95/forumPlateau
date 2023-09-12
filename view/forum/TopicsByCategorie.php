@@ -16,8 +16,8 @@ $categories = $result["data"]['categories'];
     <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"])) { ?> <!-- Si l'utilisateur est connecté ou admin, il peut ajouter un sujet -->
         <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
             <label for="">Ajouter un sujet</label>
-            <input class="titre-form" type="text" name="titre" placeholder="Sujet : ">
-            <textarea name="texte" placeholder="Message"></textarea>
+            <input class="titre-form" type="text" name="titre" placeholder="Sujet : " required>
+            <textarea name="texte" placeholder="Message" required></textarea>
             <input class="submit" type="submit" name="addTopic" value="OK">
         </form>
     <?php } ?>
@@ -70,8 +70,8 @@ $categories = $result["data"]['categories'];
 <?php } ?>
 <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]))) { ?> <!-- Si l'utilisateur est connecté ou admin, il peut ajouter un sujet -->
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-        <input class="titre-form" type="text" name="titre" placeholder="Sujet :">
-        <textarea name="texte" placeholder="Message"></textarea>
+        <input class="titre-form" type="text" name="titre" placeholder="Sujet :" required>
+        <textarea name="texte" placeholder="Message" required></textarea>
         <input class="submit" type="submit" name="addTopic" value="Poster">
     </form>
 <?php } ?>
