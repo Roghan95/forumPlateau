@@ -207,6 +207,32 @@ label {
     border-radius: 100%;
 }
 
+.register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.register,
+input[type"text"] {
+    width: 50%;
+}
+
+.submit {
+    border: none;
+    padding: 5px 15px 5px 15px;
+    width: fit-content;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #221bf0;
+    color: #ddd;
+}
+
+.submit:hover {
+    background-color: #1109fc;
+}
+
 /* -------------------------------- */
 
 

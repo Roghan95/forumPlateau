@@ -53,13 +53,15 @@ $topic = $result["data"]['topic'];
 
             <!-- Form pour modifier le post avec un input type submit -->
             <!-- On vérifie si l'utilisateur est admin ou l'auteur du post pour permettre la modification du post -->
-            <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
-                <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
-                    <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
-                    <input class="submit" type="submit" name="updatePost" value="Modifier">
-                </form>
-                <a class="submit" href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
-            <?php } ?>
+            <div class="modifier-post">
+                <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $post->getUser()->getId())) { ?>
+                    <form action="index.php?ctrl=forum&action=updatePostForm&id=<?= $post->getId() ?>" method="post">
+                        <textarea type="text" name="texte" placeholder="Modifier le texte"></textarea>
+                        <input class="submit" type="submit" name="updatePost" value="Modifier">
+                    </form>
+                    <a class="submit" href="index.php?ctrl=forum&action=deletePost&id=<?= $post->getId() ?>">Supprimer</a>
+                <?php } ?>
+            </div>
         <?php } ?>
 
         <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]))) { ?>

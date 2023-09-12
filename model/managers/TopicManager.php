@@ -25,7 +25,8 @@ class TopicManager extends Manager
         INNER JOIN topic t ON t.categorie_id = c.id_categorie
         LEFT JOIN post p ON p.topic_id = t.id_topic
         WHERE c.id_categorie = :id 
-        GROUP BY t.id_topic";
+        GROUP BY t.id_topic
+        ORDER BY t.dateCreation DESC";
 
         return $this->getMultipleResults(
             DAO::select($sql, ['id' => $id]),

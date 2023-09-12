@@ -40,17 +40,22 @@ class ForumController extends AbstractController implements ControllerInterface
     // La fonction listTopicsByCategorie permet d'afficher les topics d'une catégorie par son id
     public function listTopicsByCategorie($id)
     {
-        $postManager = new PostManager();
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
 
-        return [
-            "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
-            "data" => [
-                "topics" => $topicManager->findTopicsByCategorie($id, ["dateCreation", "DESC"]),
-                "categories" => $categorieManager->findOneById($id)
-            ]
-        ];
+        $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "ASC"]);
+
+        if ($topics) {
+            return [
+                "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
+                "data" => [
+                    "topics" => $topics,
+                    "categories" => $categorieManager->findOneById($id)
+                ]
+            ];
+        } else {
+            $this->redirectTo("forum", "listCategories");
+        }
     }
 
 
@@ -59,15 +64,19 @@ class ForumController extends AbstractController implements ControllerInterface
     {
         $postManager = new PostManager();
         $topicManager = new TopicManager();
-        $categorieManager = new CategorieManager();
 
-        return [
-            "view" => VIEW_DIR . "forum/PostsByTopics.php",
-            "data" => [
-                "posts" => $postManager->findPostsByTopic($id, ["dateCreation", "DESC"]),
-                "topic" => $topicManager->findOneById($id)
-            ]
-        ];
+        $posts = $postManager->findPostsByTopic($id, ["dateCreation", "DESC"]);
+        if ($posts) {
+            return [
+                "view" => VIEW_DIR . "forum/PostsByTopics.php",
+                "data" => [
+                    "posts" => $posts,
+                    "topic" => $topicManager->findOneById($id)
+                ]
+            ];
+        } else {
+            $this->redirectTo("forum", "listCategories");
+        }
     }
 
     // Ajouter une catégorie
@@ -87,11 +96,12 @@ class ForumController extends AbstractController implements ControllerInterface
             ];
             // On ajoute la catégorie
             $categorieManager->add($data);
-            // On redirige vers la liste des catégories
+            Session::addFlash("success", "Catégorie ajoutée avec succès.");
         } else {
-            Session::addFlash("error", "Vérifiez que vous êtes bien connectés !");
+            Session::addFlash("error", "Vérifiez que vous êtes bien connectés !"); // Si la personne n'est pas connectée, on affiche un message d'erreur
         }
-        $this->redirectTo("forum", "listCategories");
+
+        $this->redirectTo("forum", "listCategories"); // On redirige vers la liste des catégories
     }
 
     // Supprimer une catégorie
@@ -103,6 +113,7 @@ class ForumController extends AbstractController implements ControllerInterface
             // On supprime la catégorie par son id
             $categorieManager->delete($id);
             // On redirige vers la liste des catégories
+            Session::addFlash("success", "Catégorie supprimée avec succès.");
         } else {
             Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
         }
@@ -117,11 +128,13 @@ class ForumController extends AbstractController implements ControllerInterface
             if ($nomCategorie) {
                 $categorieManager = new CategorieManager();
                 $categorieManager->updateCategorie($id, $nomCategorie);
-                $this->redirectTo("forum", "listCategories");
+
+                Session::addFlash("success", "Catégorie modifiée avec succès.");
             }
         } else {
             Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
         }
+        $this->redirectTo("forum", "listCategories");
     }
 
     // Ajouter un post
@@ -130,24 +143,19 @@ class ForumController extends AbstractController implements ControllerInterface
         // Si on clique sur le bouton "Ajouter un post" alors on récupère le texte du post et on le filtre, ensuite on vérifie si l'utilisateur est connecté ou qu'il est admin
         $postManager = new PostManager();
         if (isset($_POST["addPost"]) && isset($_SESSION["user"])) {
-            // On récupère le texte du post et on le filtre
+            // On récupère le champ texte du form et on le filtre
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // On ajoute le post selon les données suivantes (texte, user_id, topic_id). Le user_id est fixé à 2 car on n'a pas encore de système de connexion
+            // On ajoute le post selon les données suivantes (texte, user_id, topic_id).
             $data = [
                 "texte" => $texte,
                 "user_id" => $_SESSION["user"]->getId(),
                 "topic_id" => $id
             ];
             $postManager->add($data);
+            Session::addFlash("success", "Message ajouté avec succès.");
         } else {
-            Session::addFlash("error", "Vous devez être connectés pour faire cet action!");
-        }
-
-        if ($postManager) {
-            Session::addFlash("success", "Merci d'avoir répondu !");
-        } else {
-            Session::addFlash("error", "Une erreur est survenue, veuillez réessayer.");
+            Session::addFlash("error", "Vous devez être connecté pour faire cet action!");
         }
         $this->redirectTo("forum", "listPostsByTopic", $id);
     }
@@ -172,30 +180,24 @@ class ForumController extends AbstractController implements ControllerInterface
             // Si l'id du post est différent de l'id du premier post du topic, on supprime le post
             if ($id != $idFirstPost) {
                 $postManager->delete($id);
+                Session::addFlash("success", "Message supprimé avec succès");
+            } else {
+                Session::addFlash("error", "Vous ne pouvez pas supprimé le premier message de ce topic"); // On ne peu pas supprimer le premier post du topic
             }
         } else {
             Session::addFlash("error", "Vous devez être connectés pour faire cet action!");
         }
-
-        if ($id != $idFirstPost) {
-            Session::addFlash("success", "Message supprimé avec succès");
-        } else {
-            Session::addFlash("error", "Vous ne pouvez pas supprimé le premier message de ce topic");
-        }
-
-        // On redirige vers la page du topic
         $this->redirectTo("forum", "listPostsByTopic", $idTopic);
     }
 
     // Modifier un post
     public function updatePostForm($id)
     {
-
         $postManager = new PostManager(); // On instancie le manager des posts
 
-        $topicId = $postManager->findOneById($id)->getTopic()->getId(); // On récupère l'id du topic du post
-        if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicId->getUser()->getId())) {
+        if (isset($_POST["updatePost"]) && isset($_POST["texte"]) && !empty($_POST["texte"]) && (Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $postManager->findOneById($id)->getUser()->getId())) {
             $texte = filter_input(INPUT_POST, 'texte', FILTER_SANITIZE_SPECIAL_CHARS); // On récupère le champ texte du form et on le filtre
+            $topicId = $postManager->findOneById($id)->getTopic()->getId(); // On récupère l'id du topic du post
             if ($texte) {
                 $postManager->updatePostAction($id, $texte);
                 Session::addFlash("success", "Message modifié avec succès.");
@@ -214,10 +216,7 @@ class ForumController extends AbstractController implements ControllerInterface
 
         if (
             // Vérification des champs du form 
-            isset($_POST["addTopic"]) && isset($_POST['titre']) && !empty($_POST['titre'])
-            && isset($_POST['texte']) && !empty($_POST['texte']
-                // partie Session
-                && (isset($_SESSION["user"]) && $_SESSION["user"]->getId($id)))
+            isset($_POST["addTopic"]) && (Session::isAdmin()) || (isset($_SESSION["user"]))
         ) {
             // On récupère les différents champs du formulaire pour les filtrer
             $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -236,6 +235,9 @@ class ForumController extends AbstractController implements ControllerInterface
                 "topic_id" => $topicId
             ];
             $postManager->add($data2);
+            Session::addFlash("success", "Topic créé avec succès.");
+        } else {
+            Session::addFlash("error", "Vous devez être connectés pour faire cet action!");
         }
         $this->redirectTo("forum", "listPostsByTopic", $topicId);
     }
@@ -262,12 +264,12 @@ class ForumController extends AbstractController implements ControllerInterface
     // Modifier un topic
     public function updateTopic($id)
     {
-        $topicManager = new TopicManager(); // On instancie le mananger
+        $topicManager = new TopicManager(); // On instancie le manager
         $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS); // On filtre le champ "titre" du form
 
-        $categorieId = $topicManager->findOneById($id)->getCategorie()->getId(); // On récupère l'id de la catégorie du topic
 
         if (isset($_POST["updateTopic"]) && Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicManager->findOneById($id)->getUser()->getId())) {
+            $categorieId = $topicManager->findOneById($id)->getCategorie()->getId(); // On récupère l'id de la catégorie du topic
             if ($titre) {
                 $topicManager->updateTopic($id, $titre);
                 Session::addFlash("success", "Le titre du topic modifié avec succès.");
