@@ -112,25 +112,26 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function logout()
     {
         unset($_SESSION["user"]); // On déconnecte l'user grâce à la fonction PHP
+        Session::addFlash("success", "A bientôt"); // On affiche un message de succès
         $this->redirectTo("forum", "listCategories"); // Redirige vers listCategories ("accueil")
     }
-
-    // public function banUser() {
-    //     $userManager = new UserManager();
-
-
-    // }
 
     // Méthode pour afficher les utilisateurs
     public function listUsers()
     {
         $userManager = new UserManager();
-        return [
-            "view" => VIEW_DIR . "security/listUsers.php",
-            "data" => [
-                "users" => $userManager->findAll(["dateInscription", "DESC"])
-            ]
-        ];
+        if (!Session::isAdmin()) {
+            $this->redirectTo("forum", "listCategories");
+            Session::addFlash("error", "Vous n'avez pas accès à cette page!");
+        } else {
+            return [
+                "view" => VIEW_DIR . "security/listUsers.php",
+                "data" => [
+                    "users" => $userManager->findAll(["dateInscription", "DESC"])
+                ]
+            ];
+        }
+        $this->redirectTo("forum", "listCategories");
     }
 
     // Méthode pour ban un utilisateur

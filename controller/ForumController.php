@@ -28,11 +28,37 @@ class ForumController extends AbstractController implements ControllerInterface
     // La fonction listCategories permet d'afficher les catégories
     public function listCategories()
     {
-        $categorieManager = new CategorieManager();
+        $categorieManager = new CategorieManager(); // On instancie le manager des catégories
+        $topicManager = new TopicManager(); // On instancie le manager des topics
+        $allTopics = $topicManager->findAll(); // On récupère tous les topics
+        $TotalTopics = 0; // On initialise le compteur x à 0
+        foreach ($allTopics as $topic) {
+            $TotalTopics += 1; // On incrémente x de 1 à chaque tour de boucle
+        }
+
+        $ids = $categorieManager->findAll(["dateCreation", "DESC"]); // On récupère tooutes les catégories
+        $tabId = []; // On initialise un tableau vide qui va stocker le nombre de topics de chaque catégorie
+        foreach ($ids as $categorie) { // On boucle sur les catégories
+
+            $id = $categorie->getId(); // On récupère l'id de la catégorie
+            $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "DESC"]); // On récupère les topics de la catégorie
+            $y = 0; // On initialise le compteur y à 0
+
+            if ($topics != null) { // Si la catégorie contient des topics
+                foreach ($topics as $topic) { // On compte les topics de la catégorie
+                    $y += 1; // On incrémente y de 1 à chaque tour de boucle
+                }
+            } else { // Si la catégorie ne contient pas de topics
+                $y = 0; // On initialise y à 0
+            }
+            array_push($tabId, $y); // On ajoute le nombre de topics de la catégorie dans le tableau tabId
+        }
         return [
-            "view" => VIEW_DIR . "forum/listCategories.php",
+            "view" => VIEW_DIR . "forum/listCategories.php", // On retourne la vue listCategories.php
             "data" => [
-                "categories" => $categorieManager->findAll(["nomCategorie", "DESC"])
+                "categories" => $categorieManager->findAll(["dateCreation", "DESC"]), // On retourne toutes les catégories
+                "tabId" => $tabId, // On retourne le tableau tabId
+                "allTopics" => $TotalTopics // On retourne le nombre total de topics
             ]
         ];
     }
@@ -43,21 +69,17 @@ class ForumController extends AbstractController implements ControllerInterface
         $topicManager = new TopicManager();
         $categorieManager = new CategorieManager();
 
-        $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "ASC"]);
+        $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "DESC"]);
 
-        if ($topics) {
-            return [
-                "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
-                "data" => [
-                    "topics" => $topics,
-                    "categories" => $categorieManager->findOneById($id)
-                ]
-            ];
-        } else {
-            $this->redirectTo("forum", "listCategories");
-        }
+
+        return [
+            "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
+            "data" => [
+                "topics" => $topics,
+                "categories" => $categorieManager->findOneById($id)
+            ]
+        ];
     }
-
 
     // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
     public function listPostsByTopic($id)
@@ -82,26 +104,32 @@ class ForumController extends AbstractController implements ControllerInterface
     // Ajouter une catégorie
     public function addCategorie()
     {
-        // Si on clique sur le bouton "Ajouter une catégorie"
-        if (isset($_POST["addCategorie"]) && (Session::isAdmin())) {
-
-            // On récupère le nom de la catégorie et on le filtre
-            $nomCategorie = filter_input(INPUT_POST, 'nomCategorie', FILTER_SANITIZE_SPECIAL_CHARS);
-            // On instancie le manager des catégories
-            $categorieManager = new CategorieManager();
-
-            $data = [
-                // On récupère le nom de la catégorie
-                "nomCategorie" => $nomCategorie
-            ];
-            // On ajoute la catégorie
-            $categorieManager->add($data);
-            Session::addFlash("success", "Catégorie ajoutée avec succès.");
-        } else {
-            Session::addFlash("error", "Vérifiez que vous êtes bien connectés !"); // Si la personne n'est pas connectée, on affiche un message d'erreur
+        // On vérifie que l'utilisateur est connecté et est admin
+        if (!Session::isAdmin()) {
+            // On enregistre un message flash
+            Session::addFlash("error", "Vous devez être connecté en tant qu'administrateur pour créer une catégorie");
+            // On redirige vers la page de connexion
+            $this->redirectTo("security", "login");
         }
 
-        $this->redirectTo("forum", "listCategories"); // On redirige vers la liste des catégories
+        // On instancie les managers
+        $categorieManager = new CategorieManager();
+        if ($categorieManager) {
+
+            // On récupère le nom de la catégorie
+            $nomCategorie = filter_input(INPUT_POST, 'nomCategorie', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            // On ajoute la catégorie
+            $categorieManager->add([
+                "nomCategorie" => $nomCategorie
+            ]);
+            // Message flash pour confirmer l'ajout du post si réussi sinon message d'erreur
+            Session::addFlash("success", "Votre catégorie a bien été ajoutée");
+        } else {
+            Session::addFlash("error", "Une erreur est survenue lors de l'ajout de votre catégorie");
+        }
+        // On redirige vers la liste des catégories
+        $this->redirectTo("forum", "listCategories");
     }
 
     // Supprimer une catégorie

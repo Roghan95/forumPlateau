@@ -8,12 +8,25 @@ final class Categorie extends Entity
 {
     private $id;
     private $nomCategorie;
+    private $dateCreation;
 
 
 
     public function __construct($data)
     {
         $this->hydrate($data);
+    }
+
+    public function getDateCreation()
+    {
+        $formattedDate = $this->dateCreation->format("d/m/Y, H:i:s");
+        return $formattedDate;
+    }
+
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = new \DateTime($dateCreation);
+        return $this;
     }
 
 

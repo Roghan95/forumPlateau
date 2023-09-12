@@ -13,14 +13,7 @@ $categories = $result["data"]['categories'];
 </h1>
 
 <?php if (empty($topics)) { ?>
-    <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"])) { ?> <!-- Si l'utilisateur est connecté ou admin, il peut ajouter un sujet -->
-        <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
-            <label for="">Ajouter un sujet</label>
-            <input class="titre-form" type="text" name="titre" placeholder="Sujet : " required>
-            <textarea name="texte" placeholder="Message" required></textarea>
-            <input class="submit" type="submit" name="addTopic" value="OK">
-        </form>
-    <?php } ?>
+    <p>Aucun sujet n'a été trouvé dans cette catégorie.</p>
 <?php } ?>
 
 <?php if (!empty($topics)) { ?>
@@ -74,4 +67,6 @@ $categories = $result["data"]['categories'];
         <textarea name="texte" placeholder="Message" required></textarea>
         <input class="submit" type="submit" name="addTopic" value="Poster">
     </form>
+<?php } else { ?>
+    <p>Vous devez être <a href="index.php?ctrl=security&action=login">connecté</a> ou vous <a href="index.php?ctrl=security&action=register">inscrire</a> pour poster un sujet</p>
 <?php } ?>

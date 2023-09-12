@@ -73,10 +73,11 @@ $topic = $result["data"]['topic'];
                     <textarea id="message-textarea" name="texte" required></textarea>
                     <input class="submit" type="submit" name="addPost" value="POSTER">
                 </form>
-            <?php } else { ?>
-                <!-- Si non on affiche un message qui dit que c'est verrouillé -->
-                <p>Le topic est verrouillé</p>
-            <?php } ?>
+            <?php }else { ?>
+                <p>Le topic est verrouillé</p> <?php }
+        } else { ?>
+            <!-- Si non on affiche un message qui dit que c'est verrouillé -->
+            <p>Le topic est verrouillé</p>
         <?php } ?>
+    <?php } ?>
     </div>
-<?php } ?>
