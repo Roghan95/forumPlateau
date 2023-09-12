@@ -362,6 +362,7 @@ label {
 }
 
 .barre_noir {
+    border-radius: 5px;
     width: 150px;
     height: 3px;
     border: 1px solid black;
