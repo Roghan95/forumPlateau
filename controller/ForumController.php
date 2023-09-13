@@ -16,6 +16,13 @@ class ForumController extends AbstractController implements ControllerInterface
     // La fonction index permet d'afficher les topics et de les trier par date de création
     public function index()
     {
+        $topicManager = new TopicManager();
+        return [
+            "view" => VIEW_DIR . "forum/listTopics.php",
+            "data" => [
+                "topics" => $topicManager->findAll(["dateCreation", "DESC"])
+            ]
+        ];
     }
 
     // La fonction listCategories permet d'afficher les catégories
@@ -350,8 +357,21 @@ class ForumController extends AbstractController implements ControllerInterface
     // Méthode pour afficher le profil de l'utilisateur connecté
     public function profil()
     {
-        $userManager = new UserManager(); // On instancie le manager des utilisateurs
-
+        $userManager = new UserManager(); // On instancie le manager des utilisateurs 
+        // On vérifie si c'est l'admin, l'utilisateur et qu'il est bien connecté
+        if (Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $userManager->findOneById($_SESSION["user"]->getId())->getId())) {
+            // On récupère l'id de l'utilisateur
+            $id = $_SESSION["user"]->getId();
+            // On récupère l'utilisateur par son id
+            $user = $userManager->findOneById($id);
+            // On retourne la vue profil.php
+            return [
+                "view" => VIEW_DIR . "forum/profil.php",
+                "data" => [
+                    "user" => $user
+                ]
+            ];
+        }
         $this->redirectTo("security", "login"); // On redirige vers la page de connexion si l'utilisateur n'est pas connecté
     }
 }

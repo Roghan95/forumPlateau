@@ -46,7 +46,7 @@ $allTopics = $result["data"]['allTopics'];
         <?php } ?>
     </div>
 </div>
-
+<!-- Script JS pour les différents champs du formulaire -->
 <script>
     // input modifier titre catégorie qui apparait quand on clique sur le bouton modifier
     const modifyTitle = document.querySelectorAll(".modify-title");

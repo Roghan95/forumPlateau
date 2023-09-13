@@ -57,15 +57,4 @@ class UserManager extends Manager
 
         return DAO::update($sql, [":id" => $id]);
     }
-
-    public function profilUser($id)
-    {
-        $sql = "SELECT * FROM " . $this->tableName . " 
-        WHERE id = :id";
-
-        return $this->getOneOrNullResult(
-            DAO::select($sql, [":id" => $id]),
-            $this->className
-        );
-    }
 }
