@@ -63,13 +63,17 @@ class ForumController extends AbstractController implements ControllerInterface
         $categorieManager = new CategorieManager();
 
         $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "DESC"]);
-        return [
-            "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
-            "data" => [
-                "topics" => $topics,
-                "categories" => $categorieManager->findOneById($id)
-            ]
-        ];
+        if ($topics) {
+            return [
+                "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
+                "data" => [
+                    "topics" => $topics,
+                    "categories" => $categorieManager->findOneById($id)
+                ]
+            ];
+        } else {
+            $this->redirectTo("forum", "listCategories");
+        }
     }
 
     // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
@@ -88,6 +92,7 @@ class ForumController extends AbstractController implements ControllerInterface
                 ]
             ];
         }
+        $this->redirectTo("forum", "listCategories");
     }
 
     // Ajouter une catégorie
@@ -281,20 +286,38 @@ class ForumController extends AbstractController implements ControllerInterface
     // Modifier un topic
     public function updateTopic($id)
     {
-        $topicManager = new TopicManager(); // On instancie le manager
-        $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_SPECIAL_CHARS); // On filtre le champ "titre" du form
-
-
-        if (isset($_POST["updateTopic"]) && Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topicManager->findOneById($id)->getUser()->getId())) {
-            $categorieId = $topicManager->findOneById($id)->getCategorie()->getId(); // On récupère l'id de la catégorie du topic
-            if ($titre) {
-                $topicManager->updateTopic($id, $titre);
-                Session::addFlash("success", "Le titre du topic modifié avec succès.");
-            } else {
-                Session::addFlash("error", "Vous n'avez pas les droits pour cet action!");
-            }
+        if (!isset($_SESSION["user"])) {
+            // On enregistre un message flash
+            Session::addFlash("error", "Vous devez être connecté pour modifier");
+            // On redirige vers la page de connexion
+            $this->redirectTo("security", "login");
         }
-        $this->redirectTo("forum", "listPostsByTopic", $categorieId);
+
+        // On instancie les managers
+        $topicManager = new TopicManager();
+        // On récupère l'id du topic
+        $topic = $topicManager->findOneById($id);
+        // On récupère le nouveau titre du sujet
+        $titre = filter_input(INPUT_POST, 'titre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        // On vérifie que l'action est effectuer par un admin ou l'auteur du topic
+        if ((Session::isAdmin())
+            || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())
+        ) {
+            // On modifie le titre du sujet
+            $topicManager->updateTopic($id, $titre);
+        } else {
+            // On redirige vers la page du topic
+            $this->redirectTo("forum", "listPostsByTopic", $id);
+        }
+        // Message flash pour confirmer l'ajout du post si réussi sinon message d'erreur
+        if ($topicManager) {
+            Session::addFlash("success", "Le titre a bien été modifié");
+        } else {
+            Session::addFlash("error", "Une erreur est survenue lors de la modification");
+        }
+
+        // On redirige vers la page du sujet modifié via l'id du sujet
+        $this->redirectTo("forum", "listPostsByTopic", $id);
     }
 
     // Méthode pour vérouiller un topic
@@ -322,5 +345,13 @@ class ForumController extends AbstractController implements ControllerInterface
             Session::addFlash("error", "Vous n'avez pas les droits pour cet action!"); // Message d'erreur
         }
         $this->redirectTo("forum", "listPostsByTopic", $id);
+    }
+
+    // Méthode pour afficher le profil de l'utilisateur connecté
+    public function profil()
+    {
+        $userManager = new UserManager(); // On instancie le manager des utilisateurs
+
+        $this->redirectTo("security", "login"); // On redirige vers la page de connexion si l'utilisateur n'est pas connecté
     }
 }

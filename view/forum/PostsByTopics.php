@@ -20,7 +20,9 @@ $topic = $result["data"]['topic'];
         <?php if ((App\Session::isAdmin()) || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $topic->getUser()->getId())) { ?>
             <form action="index.php?ctrl=forum&action=updateTopic&id=<?= $topic->getId() ?>" method="post">
                 <input class="titre-form" type="text" name="titre" placeholder="Modifier le titre" required>
-                <input class="submit" type="submit" name="updateTopic" value="Modifier">
+
+                <!-- Bouton modifier un topic -->
+                <input type="submit" name="updateTopic" value="Modifier">
             </form>
             <!-- Bouton supprimer un topic -->
             <a class="submit" href="index.php?ctrl=forum&action=deleteTopic&id=<?= $topic->getId() ?>">Supprimer</a>
@@ -73,9 +75,9 @@ $topic = $result["data"]['topic'];
                     <textarea id="message-textarea" name="texte" required></textarea>
                     <input class="submit" type="submit" name="addPost" value="POSTER">
                 </form>
-            <?php }else { ?>
+            <?php } else { ?>
                 <p>Le topic est verrouillé</p> <?php }
-        } else { ?>
+                                        } else { ?>
             <!-- Si non on affiche un message qui dit que c'est verrouillé -->
             <p>Le topic est verrouillé</p>
         <?php } ?>
