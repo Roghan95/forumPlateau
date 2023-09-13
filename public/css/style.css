@@ -240,7 +240,7 @@ label {
 
 
 .edit-form {
-    text-align: center;
+    text-align: left;
     border-radius: 5px;
     display: inline-flex;
     align-items: center;
@@ -312,6 +312,7 @@ label {
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.5s ease;
+    margin-top: 10px;
 }
 
 .nomCateg {
@@ -345,6 +346,12 @@ label {
     position: absolute;
 }
 
+.top-topics {
+    display: inline;
+    text-align: center !important;
+    align-items: center;
+    justify-content: center;
+}
 
 
 /* -------------------------------- */

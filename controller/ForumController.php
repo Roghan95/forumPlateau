@@ -16,13 +16,6 @@ class ForumController extends AbstractController implements ControllerInterface
     // La fonction index permet d'afficher les topics et de les trier par date de création
     public function index()
     {
-        $topicManager = new TopicManager();
-        return [
-            "view" => VIEW_DIR . "forum/listTopics.php",
-            "data" => [
-                "topics" => $topicManager->findAll(["dateCreation", "DESC"])
-            ]
-        ];
     }
 
     // La fonction listCategories permet d'afficher les catégories

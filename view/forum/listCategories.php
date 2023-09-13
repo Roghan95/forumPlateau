@@ -8,9 +8,8 @@ $allTopics = $result["data"]['allTopics'];
 
 
 
-<h1>FORUM</h1>
+<h1>FORUM > <a href="index.php?ctrl=forum&action=listCategories">Liste de catégories</a></h1>
 <div class="categorie">
-    <h2>Liste catégories</h2>
     <?php
     if ($categories) {
         foreach ($categories as $index => $categorie) {
@@ -23,7 +22,7 @@ $allTopics = $result["data"]['allTopics'];
                     </a>
                     <p style="color: grey; text-align:left !important; font-size: 12px; font-weight:600;"><?= $categorie->getDateCreation() ?></p>
                 </div>
-                <div>
+                <div class="top-topics">
                     <p>Topics : <?= $nbTopics[$index] ?></p>
                     <div class="barre_noir">
                         <div style="width: <?= $pourcentageTopics ?>%;" class="barre_bleu"></div>
@@ -44,7 +43,6 @@ $allTopics = $result["data"]['allTopics'];
 </div>
 <?php if ((App\Session::isAdmin())) { ?>
     <form action="index.php?ctrl=forum&action=addCategorie" method="post">
-        <label for="nomCategorie">Ajouter une catégorie :</label>
         <input style="display: none;" class="nom-categ" type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>
         <input class="add-categ" type="submit" name="addCategorie" value="Ajouter">
     </form>
@@ -75,6 +73,17 @@ $allTopics = $result["data"]['allTopics'];
     // input ajouter catégorie qui apparait quand on clique sur le bouton ajouter
     addCateg.addEventListener("click", function() {
         const nomCateg = document.querySelector(".nom-categ");
-        nomCateg.style.display = "block";
+        const btnAddCateg = document.querySelector(".add-categ");
+        nomCateg.style.display = "block", nomCateg.style.margin = "10px 0 0 0";
+        btnAddCateg.style.margin = "10px 0 0 0";
     })
+
+    // Si le l'input est vide, on referme l'input
+    nomCateg.forEach(element => {
+        element.addEventListener("blur", function() {
+            if (element.value == "") {
+                element.style.display = "none";
+            }
+        })
+    });
 </script>
