@@ -5,9 +5,6 @@ $allTopics = $result["data"]['allTopics'];
 
 
 ?>
-
-
-
 <h1>FORUM > <a href="index.php?ctrl=forum&action=listCategories">Liste de catégories</a></h1>
 <div class="categorie">
     <?php
@@ -52,7 +49,7 @@ $allTopics = $result["data"]['allTopics'];
     // input modifier titre catégorie qui apparait quand on clique sur le bouton modifier
     const modifyTitle = document.querySelectorAll(".modify-title");
     const btnModify = document.querySelectorAll(".btn-modify");
-    const nomCateg = document.querySelectorAll(".nomCateg");
+    const nomCateg = document.querySelectorAll(".nom-categ");
     const addCateg = document.querySelector(".add-categ");
 
     for (let i = 0; i < btnModify.length; i++) {
@@ -61,7 +58,7 @@ $allTopics = $result["data"]['allTopics'];
         })
     }
 
-    // Si le l'input est vide, on affiche un bouton pour refermer l'input
+    // Si le l'input est vide et que je clique ailleurs que dans l'input, on cache l'input
     for (let i = 0; i < modifyTitle.length; i++) {
         modifyTitle[i].addEventListener("blur", function() {
             if (modifyTitle[i].value == "") {
@@ -74,16 +71,16 @@ $allTopics = $result["data"]['allTopics'];
     addCateg.addEventListener("click", function() {
         const nomCateg = document.querySelector(".nom-categ");
         const btnAddCateg = document.querySelector(".add-categ");
-        nomCateg.style.display = "block", nomCateg.style.margin = "10px 0 0 0";
-        btnAddCateg.style.margin = "10px 0 0 0";
+        nomCateg.style.display = "inline-block";
+        nomCateg.style.margin = "0 5px 0 0";
     })
 
-    // Si le l'input est vide, on referme l'input
-    nomCateg.forEach(element => {
-        element.addEventListener("blur", function() {
-            if (element.value == "") {
-                element.style.display = "none";
+    // Si le l'input est vide et que je clique ailleurs que dans l'input, on cache l'input
+    for (let i = 0; i < nomCateg.length; i++) {
+        nomCateg[i].addEventListener("blur", function() {
+            if (nomCateg[i].value == "") {
+                nomCateg[i].style.display = "none";
             }
         })
-    });
+    }
 </script>
