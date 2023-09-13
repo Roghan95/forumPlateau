@@ -21,7 +21,7 @@ $allTopics = $result["data"]['allTopics'];
                     <a class="nomCateg" href="index.php?ctrl=forum&action=listTopicsByCategorie&id=<?= $categorie->getId() ?>">
                         <?= $categorie->getNomCategorie() ?> <!-- On récupère les noms des catégories -->
                     </a>
-                    <p style="color: grey; text-align:left; font-size: 12px; font-weight:600;"><?= $categorie->getDateCreation() ?></p>
+                    <p style="color: grey; text-align:left !important; font-size: 12px; font-weight:600;"><?= $categorie->getDateCreation() ?></p>
                 </div>
                 <div>
                     <p>Topics : <?= $nbTopics[$index] ?></p>
@@ -31,12 +31,10 @@ $allTopics = $result["data"]['allTopics'];
                 </div>
                 <?php if ((App\Session::isAdmin())) { ?> <!-- // On vérifie si l'utilisateur est admin pour afficher le bouton de suppression et modification -->
                     <div class="modifyDelete">
-                        <div>
-                            <form class="form-modify" action="index.php?ctrl=forum&action=updateCategorie&id=<?= $categorie->getId() ?>" method="post">
-                                <input style="display: none;" class="modify-title" type="text" name="nomCategorie" placeholder="Modifier le titre" required>
-                                <input class="btn-modify" type="submit" name="updateCategorie" value="Modifier">
-                            </form>
-                        </div>
+                        <form class="form-modify" action="index.php?ctrl=forum&action=updateCategorie&id=<?= $categorie->getId() ?>" method="post">
+                            <input style="display: none;" class="modify-title" type="text" name="nomCategorie" placeholder="Modifier le titre" required>
+                            <input class="btn-modify" type="submit" name="updateCategorie" value="Modifier">
+                        </form>
                         <a class="supp-categ" href="index.php?ctrl=forum&action=deleteCategorie&id=<?= $categorie->getId() ?>">Suppr.</a>
                     </div>
                 <?php } ?>
@@ -61,7 +59,7 @@ $allTopics = $result["data"]['allTopics'];
 
     for (let i = 0; i < btnModify.length; i++) {
         btnModify[i].addEventListener("click", function() {
-            modifyTitle[i].style.display = "block";
+            modifyTitle[i].style.display = "inline-block";
         })
     }
 
