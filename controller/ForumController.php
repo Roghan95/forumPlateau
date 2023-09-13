@@ -63,8 +63,6 @@ class ForumController extends AbstractController implements ControllerInterface
         $categorieManager = new CategorieManager();
 
         $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "DESC"]);
-
-
         return [
             "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
             "data" => [
@@ -89,8 +87,6 @@ class ForumController extends AbstractController implements ControllerInterface
                     "topic" => $topicManager->findOneById($id)
                 ]
             ];
-        } else {
-            $this->redirectTo("forum", "listCategories");
         }
     }
 

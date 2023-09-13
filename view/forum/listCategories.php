@@ -37,13 +37,15 @@ $allTopics = $result["data"]['allTopics'];
             </div>
     <?php }
     } ?>
+    <div>
+        <?php if ((App\Session::isAdmin())) { ?>
+            <form action="index.php?ctrl=forum&action=addCategorie" method="post">
+                <input style="display: none;" class="nom-categ" type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>
+                <input class="add-categ" type="submit" name="addCategorie" value="Ajouter">
+            </form>
+        <?php } ?>
+    </div>
 </div>
-<?php if ((App\Session::isAdmin())) { ?>
-    <form action="index.php?ctrl=forum&action=addCategorie" method="post">
-        <input style="display: none;" class="nom-categ" type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>
-        <input class="add-categ" type="submit" name="addCategorie" value="Ajouter">
-    </form>
-<?php } ?>
 
 <script>
     // input modifier titre catégorie qui apparait quand on clique sur le bouton modifier
