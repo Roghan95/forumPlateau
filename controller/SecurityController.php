@@ -134,16 +134,41 @@ class SecurityController extends AbstractController implements ControllerInterfa
         $this->redirectTo("forum", "listCategories");
     }
 
-    // Méthode pour ban un utilisateur
-    public function banUser()
-    {
-        $userManager = new UserManager();
-        $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
-        $banUser = filter_input(INPUT_GET, "dateBan", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        if ($id) {
-            $userManager->banUser($id, $banUser);
-            $this->redirectTo("security", "listUsers");
+    // Méthode pour bannir un utilisateur
+    public function banUser($id)
+    {
+        if (Session::isAdmin()) { // Si c'est un admin
+            $userManager = new UserManager(); // On instancie le manager
+
+            $userManager->banUser($id, $_POST["isBan"]); // On banni l'user par son id
+            Session::addFlash("success", "Utilisateur banni"); // Message de succès
+        } else {
+            Session::addFlash("error", "Une erreur est survenue"); // Message d'erreur
+        }
+        $this->redirectTo("security", "listUsers"); // Si réussi on le redirige vers la liste des utilisateurs
+
+        if (!Session::isAdmin()) { // Si ce n'est pas un admin 
+            Session::addFlash("error", "Vous devez être connecté en tant qu'admin pour bannir un utilisateur"); // Message d'erreur
+            $this->redirectTo("security", "login"); // On le renvoie vers login
+        }
+    }
+
+    public function unbanUser($id)
+    {
+        if (Session::isAdmin()) { // Si c'est un admin
+            $userManager = new UserManager(); // On instancie le manager
+
+            $userManager->unbanUser($id); // On banni l'user par son id
+            Session::addFlash("success", "Utilisateur débanni"); // Message de succès
+        } else {
+            Session::addFlash("error", "Une erreur est survenue"); // Message d'erreur
+        }
+        $this->redirectTo("security", "listUsers"); // Si réussi on le redirige vers la liste des utilisateurs
+
+        if (!Session::isAdmin()) { // Si ce n'est pas un admin 
+            Session::addFlash("error", "Vous devez être connecté en tant qu'admin pour débannir un utilisateur"); // Message d'erreur
+            $this->redirectTo("security", "login"); // On le renvoie vers login
         }
     }
 }

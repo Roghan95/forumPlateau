@@ -354,24 +354,34 @@ class ForumController extends AbstractController implements ControllerInterface
         $this->redirectTo("forum", "listPostsByTopic", $id);
     }
 
-    // Méthode pour afficher le profil de l'utilisateur connecté
-    public function profil()
+    // Méthode pour afficher le profil de l'utilisateur connecté ou d'un autre utilisateur et afficher ses posts du plus récent au plus ancien
+    public function profil($id = null)
     {
-        $userManager = new UserManager(); // On instancie le manager des utilisateurs 
-        // On vérifie si c'est l'admin, l'utilisateur et qu'il est bien connecté
-        if (Session::isAdmin() || (isset($_SESSION["user"]) && $_SESSION["user"]->getId() == $userManager->findOneById($_SESSION["user"]->getId())->getId())) {
-            // On récupère l'id de l'utilisateur
-            $id = $_SESSION["user"]->getId();
-            // On récupère l'utilisateur par son id
-            $user = $userManager->findOneById($id);
-            // On retourne la vue profil.php
+        // On instancie le manager des posts et des utilisateurs
+        $postManager = new PostManager();
+        $userManager = new UserManager();
+        $topicManager = new TopicManager();
+
+        // Si l'id est null alors on affiche le profil de l'utilisateur connecté sinon on affiche le profil de l'utilisateur dont l'id est passé en paramètre
+        if ($id == null) {
+            $idUser = $_SESSION["user"]->getId();
+
             return [
-                "view" => VIEW_DIR . "forum/profil.php",
+                "view" => VIEW_DIR . "security/profil.php",
                 "data" => [
-                    "user" => $user
+                    "posts" => $postManager->findPostsByUser($idUser),
+                    "user" => $userManager->findOneById($idUser),
+                ]
+            ];
+            // Sinon on affiche le profil de l'utilisateur dont l'id est passé en paramètre
+        } else {
+            return [
+                "view" => VIEW_DIR . "security/profil.php",
+                "data" => [
+                    "posts" => $postManager->findPostsByUser($id),
+                    "user" => $userManager->findOneById($id),
                 ]
             ];
         }
-        $this->redirectTo("security", "login"); // On redirige vers la page de connexion si l'utilisateur n'est pas connecté
     }
 }

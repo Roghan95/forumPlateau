@@ -16,7 +16,7 @@ $users = $result["data"]['users'];
 
             <tr>
                 <td>
-                    <a href="index.php?ctrl=security&action=profil"><?= $user->getPseudo() ?></a>
+                    <a href="index.php?ctrl=security&action=profil&id=<?= $user->getId() ?>"><?= $user->getPseudo() ?></a>
                 </td>
                 <td>
                     <p><?= $user->getEmail() ?></p>
