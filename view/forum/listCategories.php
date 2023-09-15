@@ -43,6 +43,7 @@ $allTopics = $result["data"]['allTopics'];
                 <input style="display: none;" class="nom-categ" type="text" name="nomCategorie" placeholder="Nom de la catégorie" required>
                 <input class="add-categ" type="submit" name="addCategorie" value="Ajouter">
             </form>
+
         <?php } ?>
     </div>
 </div>

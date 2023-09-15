@@ -31,9 +31,11 @@ class ForumController extends AbstractController implements ControllerInterface
         $categorieManager = new CategorieManager(); // On instancie le manager des catégories
         $topicManager = new TopicManager(); // On instancie le manager des topics
         $allTopics = $topicManager->findAll(); // On récupère tous les topics
-        $TotalTopics = 0; // On initialise le compteur x à 0
+
+
+        $totalTopics = 0; // On initialise le compteur x à 0
         foreach ($allTopics as $topic) {
-            $TotalTopics += 1; // On incrémente x de 1 à chaque tour de boucle
+            $totalTopics += 1; // On incrémente x de 1 à chaque tour de boucle
         }
 
         $ids = $categorieManager->findAll(["dateCreation", "DESC"]); // On récupère tooutes les catégories
@@ -58,7 +60,7 @@ class ForumController extends AbstractController implements ControllerInterface
             "data" => [
                 "categories" => $categorieManager->findAll(["dateCreation", "DESC"]), // On retourne toutes les catégories
                 "tabId" => $tabId, // On retourne le tableau tabId
-                "allTopics" => $TotalTopics // On retourne le nombre total de topics
+                "allTopics" => $totalTopics // On retourne le nombre total de topics
             ]
         ];
     }
@@ -70,17 +72,14 @@ class ForumController extends AbstractController implements ControllerInterface
         $categorieManager = new CategorieManager();
 
         $topics = $topicManager->findTopicsByCategorie($id, ["dateCreation", "DESC"]);
-        if ($topics) {
-            return [
-                "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
-                "data" => [
-                    "topics" => $topics,
-                    "categories" => $categorieManager->findOneById($id)
-                ]
-            ];
-        } else {
-            $this->redirectTo("forum", "listCategories");
-        }
+
+        return [
+            "view" => VIEW_DIR . "forum/TopicsByCategorie.php",
+            "data" => [
+                "topics" => $topics,
+                "categories" => $categorieManager->findOneById($id)
+            ]
+        ];
     }
 
     // La fonction listPostsByTopic permet d'afficher les posts d'un topic par son id
@@ -360,7 +359,6 @@ class ForumController extends AbstractController implements ControllerInterface
         // On instancie le manager des posts et des utilisateurs
         $postManager = new PostManager();
         $userManager = new UserManager();
-        $topicManager = new TopicManager();
 
         // Si l'id est null alors on affiche le profil de l'utilisateur connecté sinon on affiche le profil de l'utilisateur dont l'id est passé en paramètre
         if ($id == null) {

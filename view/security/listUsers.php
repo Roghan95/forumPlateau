@@ -16,7 +16,7 @@ $users = $result["data"]['users'];
 
             <tr>
                 <td>
-                    <a href="index.php?ctrl=security&action=profil&id=<?= $user->getId() ?>"><?= $user->getPseudo() ?></a>
+                    <a href="index.php?ctrl=forum&action=profil&id=<?= $user->getId() ?>"><?= $user->getPseudo() ?></a>
                 </td>
                 <td>
                     <p><?= $user->getEmail() ?></p>
@@ -29,7 +29,7 @@ $users = $result["data"]['users'];
                 </td>
                 <td>
                     <?php if ($user->getIsBan() == null) {  ?>
-                        <button style="background-color:red; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;">Bannir</button>
+                        <!-- <button style="background-color:red; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;">Bannir</button> -->
                         <form action="index.php?ctrl=security&action=banUser&id=<?= $user->getId() ?>">
                             <input type="date" name="dateBan">
                             <input type="submit" name="banUser" value="Bannir">
