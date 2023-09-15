@@ -41,7 +41,13 @@ $topic = $result["data"]['topic'];
                 <figure>
                     <img src="https://picsum.photos/50/50" alt="Photo de profil">
                     <!-- On affiche le pseudo de l'utilisateur qui a créer le post -->
-                    <p><?= $post->getUser() ?></p>
+                    <?php if (!$post->getUser()) { ?>
+                        <p>Utilisateur supprimée</p>
+                    <?php } else { ?>
+                        <a href="index.php?ctrl=forum&action=profil">
+                            <?= $post->getUser() ?>
+                        </a>
+                    <?php } ?>
                 </figure>
                 <!-- On affiche la date de création du post -->
                 <p>Le <?= $post->getDateCreation() ?></p>

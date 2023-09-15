@@ -1,6 +1,5 @@
 <?php
 $users = $result["data"]['users'];
-
 ?>
 
 <table class="usersTable" border=1 style="padding: 10px;">
@@ -31,13 +30,13 @@ $users = $result["data"]['users'];
                     <?php if ($user->getIsBan() == null) {  ?>
                         <!-- <button style="background-color:red; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;">Bannir</button> -->
                         <form action="index.php?ctrl=security&action=banUser&id=<?= $user->getId() ?>" method="post">
-                            <input type="date" name="isBan" required>
-                            <input type="submit" name="banUser" value="Bannir">
+                            <input type="datetime-local" name="isBan" value="" required>
+                            <input type="submit" name="banUser" value="Bannir" style="background-color:red; border:none; border-radius:5px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;">
                         </form>
                     <?php } else { ?>
                         <p style="color:red;">L'utilisateur est banni jusqu'au : <?= $user->getIsBan() ?></p>
-                        <form action="index.php?ctrl=security&action=unbanUser&id=<?= $user->getId() ?>">
-                            <input style="background-color:green; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;" type="submit" name="unbanUser" value="Débannir">
+                        <form action="index.php?ctrl=security&action=unbanUser&id=<?= $user->getId() ?>" method="post">
+                            <input style="background-color:green; border:none; border-radius:5px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;" type="submit" name="unbanUser" value="Débannir">
                         </form>
                     <?php } ?>
                 </td>

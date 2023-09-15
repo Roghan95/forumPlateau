@@ -67,4 +67,13 @@ class PostManager extends Manager
             $this->className
         );
     }
+
+    public function anonymUser($id)
+    {
+        $sql = "UPDATE post
+        SET user_id = null
+        WHERE user_id = :id";
+
+        return DAO::update($sql, [":id" => $id]);
+    }
 }

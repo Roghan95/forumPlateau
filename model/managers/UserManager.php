@@ -41,9 +41,9 @@ class UserManager extends Manager
     // Requete pour ban un utilisateur
     public function bannedUser($id, $isBan)
     {
-        $sql = "UPDATE " . $this->tableName . " user
+        $sql = "UPDATE " . $this->tableName . "
         SET user.isBan = :isBan
-        WHERE user.id = :id";
+        WHERE id_user = :id";
 
         return DAO::update($sql, [":id" => $id, ":isBan" => $isBan]);
     }
@@ -53,12 +53,19 @@ class UserManager extends Manager
     {
         $sql = "UPDATE " . $this->tableName . " user
         SET user.isBan = NULL
-        WHERE user.id = :id";
+        WHERE id_user = :id";
 
         return DAO::update($sql, [":id" => $id]);
     }
 
     public function deleteUser($id)
     {
+        $postManager = new PostManager();
+        $topicManager = new TopicManager();
+        $topicManager->anonymUser($id);
+        $postManager->anonymUser($id);
+        $sql = "DELETE FROM user
+        WHERE id_user = :id";
+        return DAO::update($sql, [":id" => $id]);
     }
 }

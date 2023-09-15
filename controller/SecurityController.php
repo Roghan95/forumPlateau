@@ -80,27 +80,31 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $user = $userManager->findOneByEmail($email);
 
             // On récupère le mot de passe de l'utilisateur
-            $hash = $user->getMdp();
-            if ($email && $mdp) {
-                // On vérifie que l'utilisateur existe bien
-                if ($user) {
-                    // On vérifie que le mot de passe entrée correspond a celui du compte
-                    if (password_verify($mdp, $hash)) {
-                        // On ouvre la session
-                        Session::setUser($user);
-                        // On redirige vers la liste des catégorie si la connexion est réussi
-                        $this->redirectTo("forum", "listCategories");
+            if ($user) {
+                $hash = $user->getMdp();
+                if ($email && $mdp) {
+                    // On vérifie que l'utilisateur existe bien
+                    if ($user) {
+                        // On vérifie que le mot de passe entrée correspond a celui du compte
+                        if (password_verify($mdp, $hash)) {
+                            // On ouvre la session
+                            Session::setUser($user);
+                            // On redirige vers la liste des catégorie si la connexion est réussi
+                            $this->redirectTo("forum", "listCategories");
+                        } else {
+                            // Message ou action si le mot de passe n'est pas le bon
+                            Session::addFlash("error", "Email ou mot de passe incorrect!");
+                        }
                     } else {
-                        // Message ou action si le mot de passe n'est pas le bon
-                        Session::addFlash("error", "Email ou mot de passe incorrect!");
+                        // Message ou action si aucun compte n'est lié a cet email
+                        Session::addFlash("error", "Aucun compte n'existe avec cet email!");
                     }
                 } else {
-                    // Message ou action si aucun compte n'est lié a cet email
-                    Session::addFlash("error", "Aucun compte n'existe avec cet email!");
+                    // Message ou action si le filtrage n'est pas passé
+                    Session::addFlash("error", "Saissisez à nouveau!");
                 }
             } else {
-                // Message ou action si le filtrage n'est pas passé
-                Session::addFlash("error", "Saissisez à nouveau!");
+                Session::addFlash("error", "Email ou mot de passe incorrect!");
             }
         }
         return [
@@ -140,9 +144,11 @@ class SecurityController extends AbstractController implements ControllerInterfa
         if (isset($_POST["banUser"])) {
             if (Session::isAdmin()) { // Si c'est un admin
                 $isBan = filter_input(INPUT_POST, 'isBan', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                $userManager = new UserManager(); // On instancie le manager
 
+                $userManager = new UserManager(); // On instancie le manager
                 $userManager->bannedUser($id, $isBan); // On banni l'user par son id
+                // var_dump($userManager->bannedUser($id, $isBan));
+                // die;
                 Session::addFlash("success", "Utilisateur banni"); // Message de succès
             } else {
                 Session::addFlash("error", "Erreur"); // Message d'erreur
@@ -169,7 +175,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
         }
         $this->redirectTo("security", "listUsers"); // Si réussi on le redirige vers la liste des utilisateurs
 
-        if (!Session::isAdmin()) { // Si ce n'est pas un admin 
+        if (!Session::isAdmin()) { // Si ce n'est pas un admin
             Session::addFlash("error", "Vous devez être connecté en tant qu'admin pour débannir un utilisateur"); // Message d'erreur
             $this->redirectTo("security", "login"); // On le renvoie vers login
         }

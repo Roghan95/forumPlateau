@@ -1,8 +1,6 @@
 <?php
-
 $topics = $result["data"]['topics'];
 $categories = $result["data"]['categories'];
-
 ?>
 
 <h1>
@@ -22,7 +20,7 @@ $categories = $result["data"]['categories'];
             <tr>
                 <th>Sujet</th>
                 <th>Auteur</th>
-                <th>NB Messages</th>
+                <th>Nb Messages</th>
                 <th>Date</th>
                 <th>Etat</th>
             </tr>
@@ -35,10 +33,14 @@ $categories = $result["data"]['categories'];
                     </a>
                 </td>
                 <td>
-                    <a href="index.php?ctrl=forum&action=profil">
-                        <!-- TODO : Lien vers la page de profil de l'utilisateur -->
-                        <?= $topic->getUser() ?>
-                    </a>
+                    <!-- TODO : Lien vers la page de profil de l'utilisateur -->
+                    <?php if (!$topic->getUser()) { ?>
+                        <p>Utilisateur supprimée</p>
+                    <?php } else { ?>
+                        <a href="index.php?ctrl=forum&action=profil">
+                            <?= $topic->getUser() ?>
+                        </a>
+                    <?php } ?>
                 </td>
                 <td>
                     <p>
@@ -65,7 +67,7 @@ $categories = $result["data"]['categories'];
     <form action="index.php?ctrl=forum&action=addTopic&id=<?= $categories->getId() ?>" method="post">
         <input class="titre-form" type="text" name="titre" placeholder="Sujet :" required>
         <textarea name="texte" placeholder="Message" required></textarea>
-        <input class="submit" type="submit" name="addTopic" value="Poster">
+        <input type="submit" name="addTopic" value="Poster">
     </form>
 <?php } else { ?>
     <p>Vous devez être <a href="index.php?ctrl=security&action=login">connecté</a> ou vous <a href="index.php?ctrl=security&action=register">inscrire</a> pour poster un sujet</p>

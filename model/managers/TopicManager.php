@@ -62,4 +62,13 @@ class TopicManager extends Manager
 
         return DAO::update($sql, [":id" => $id]);
     }
+
+    public function anonymUser($id)
+    {
+        $sql = "UPDATE topic
+        SET user_id = null
+        WHERE user_id = :id";
+
+        return DAO::update($sql, [":id" => $id]);
+    }
 }

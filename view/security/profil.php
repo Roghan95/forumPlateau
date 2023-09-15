@@ -38,6 +38,10 @@ $isBan = $user->getIsBan() !== null;
     <a href="index.php?ctrl=security&action=unbanUser&id=<?= $user->getId() ?>">Débannir</a>
 <?php } ?>
 
+<?php if ($isAuthor || $isAdmin && $user->getId() !== null) { ?>
+    <a href="index.php?ctrl=forum&action=deleteUser&id=<?= $user->getId() ?>"><button>Supprimer</button></a>
+<?php } ?>
+
 <h2>Dernier posts</h2>
 <?php if (empty($posts) && $isAuthor) { ?>
     <p>Vous n'avez pas encore posté de message</p>

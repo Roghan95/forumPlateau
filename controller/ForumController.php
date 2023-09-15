@@ -382,4 +382,13 @@ class ForumController extends AbstractController implements ControllerInterface
             ];
         }
     }
+
+    public function deleteUser($id)
+    {
+        $userManager = new UserManager();
+
+        $userManager->deleteUser($id);
+
+        $this->redirectTo("security", "listUsers");
+    }
 }
