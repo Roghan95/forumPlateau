@@ -30,8 +30,8 @@ $users = $result["data"]['users'];
                 <td>
                     <?php if ($user->getIsBan() == null) {  ?>
                         <!-- <button style="background-color:red; border:none; border-radius:7px; padding: 5px 15px 5px 15px; color:white; cursor:pointer;">Bannir</button> -->
-                        <form action="index.php?ctrl=security&action=banUser&id=<?= $user->getId() ?>">
-                            <input type="date" name="dateBan">
+                        <form action="index.php?ctrl=security&action=banUser&id=<?= $user->getId() ?>" method="post">
+                            <input type="date" name="isBan" required>
                             <input type="submit" name="banUser" value="Bannir">
                         </form>
                     <?php } else { ?>
